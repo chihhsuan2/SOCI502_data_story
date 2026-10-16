@@ -1,0 +1,90 @@
+---
+title: "Milestone1016"
+format: pdf
+author: "Chih-Hsuan Chang"
+date: 2026-10-16
+abstract: "First try for data story"
+---
+
+## Quarto
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+raw_set <- read_csv(
+  "OECD_raw_v2.csv",
+  show_col_types = FALSE
+)
+```
+
+```{r}
+raw_set |> count(BIRTH_PLACE)
+raw_set |> count(BIRTH_PLACE, MIGRATION_AGE)
+```
+
+```{r}
+country_lab <- c(
+  AUS = "Australia", AUT = "Austria", BEL = "Belgium", BGR = "Bulgaria",
+  CAN = "Canada", CHE = "Switzerland", CHL = "Chile", COL = "Colombia",
+  CRI = "Costa Rica", CZE = "Czechia", DEU = "Germany", ESP = "Spain",
+  EST = "Estonia", FRA = "France", GBR = "United Kingdom", GRC = "Greece",
+  HUN = "Hungary", IRL = "Ireland", ISR = "Israel", ITA = "Italy",
+  LTU = "Lithuania", LUX = "Luxembourg", LVA = "Latvia", MEX = "Mexico",
+  NLD = "Netherlands", NOR = "Norway", NZL = "New Zealand", OECD = "OECD average",
+  POL = "Poland", PRT = "Portugal", ROU = "Romania", SVK = "Slovak Republic",
+  SVN = "Slovenia", SWE = "Sweden", USA = "United States"
+)
+```
+
+```{r}
+sex_lab   <- c("F" = "Female", "M" = "Male", "_T" = "Total")
+age_lab   <- c("Y25T34" = "25-34", "Y35T44" = "35-44", "Y45T54" = "45-54",
+               "Y55T64" = "55-64", "Y25T64" = "25-64 (all)")
+edu_lab   <- c("ISCED11A_0T2" = "Below upper secondary",
+               "ISCED11A_3_4" = "Upper secondary / post-secondary non-tertiary",
+               "ISCED11A_5T8" = "Tertiary", "_T" = "All levels")
+birth_lab <- c("FB" = "Foreign-born", "NB" = "Native-born", "_Z" = "Not applicable")
+arrival_lab <- c("Y_LT16" = "Arrived before age 16",
+                 "Y_GE16" = "Arrived at age 16 or older",
+                 "_T" = "All arrival ages", "_Z" = "Not applicable")
+status_lab <- c("A" = "Normal value", "U" = "Low reliability", "O" = "Missing value")
+
+```
+
+```{r}
+cleaned_data <- cleaned_data |>
+  mutate(
+    region = case_match(
+      country,
+      c("Canada", "United States") ~ "Northern America",
+      c("Mexico", "Costa Rica", "Colombia", "Chile") ~ "Latin America",
+      c("Australia", "New Zealand") ~ "Oceania",
+      "Israel" ~ "Western Asia",
+      c("Austria", "Belgium", "France", "Germany", "Luxembourg",
+        "Netherlands", "Switzerland") ~ "Western Europe",
+      c("Estonia", "Ireland", "Latvia", "Lithuania", "Norway",
+        "Sweden", "United Kingdom") ~ "Northern Europe",
+      c("Greece", "Italy", "Portugal", "Slovenia", "Spain") ~ "Southern Europe",
+      c("Bulgaria", "Czechia", "Hungary", "Poland", "Romania",
+        "Slovak Republic") ~ "Eastern Europe",
+      .default = NA_character_
+    )
+  ) |>
+  relocate(region, .after = country)
+
+```
+
+```{r}
+# Check:any country without a region? 
+cleaned_data |>
+filter(is.na(region)) |>
+  distinct(country)
+  
+cleaned_data |>
+  count(region)
+
+write_excel_csv(cleaned_data, "cleaned_data.csv")
+```
