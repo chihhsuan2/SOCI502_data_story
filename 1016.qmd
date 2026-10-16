@@ -8,21 +8,82 @@ abstract: "First try for data story"
 
 ## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+library(tidyverse)
 ```
 
 You can add options to executable code like this
 
 ```{r}
-#| echo: false
-2 * 2
+raw_set <- read_csv(
+  "OECD_raw_set.csv",
+  show_col_types = FALSE
+)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+#change the label of country
+country_lab <- c(
+  AUS = "Australia", AUT = "Austria", BEL = "Belgium", BGR = "Bulgaria",
+  CAN = "Canada", CHE = "Switzerland", CHL = "Chile", COL = "Colombia",
+  CRI = "Costa Rica", CZE = "Czechia", DEU = "Germany", ESP = "Spain",
+  EST = "Estonia", FRA = "France", GBR = "United Kingdom", GRC = "Greece",
+  HUN = "Hungary", IRL = "Ireland", ISR = "Israel", ITA = "Italy",
+  LTU = "Lithuania", LUX = "Luxembourg", LVA = "Latvia", MEX = "Mexico",
+  NLD = "Netherlands", NOR = "Norway", NZL = "New Zealand", OECD = "OECD average",
+  POL = "Poland", PRT = "Portugal", ROU = "Romania", SVK = "Slovak Republic",
+  SVN = "Slovenia", SWE = "Sweden", USA = "United States"
+)
+```
+
+```{r}
+sex_lab <- c("F" = "Female", "M" = "Male", "_T" = "Total")
+
+age_lab <- c(
+  "Y25T34" = "25-34", "Y35T44" = "35-44", "Y45T54" = "45-54",
+  "Y55T64" = "55-64", "Y25T64" = "25-64 (all)"
+)
+
+edu_lab <- c(
+  "ISCED11A_0T2" = "Below upper secondary",
+  "ISCED11A_3_4" = "Upper secondary / post-secondary non-tertiary",
+  "ISCED11A_5T8" = "Tertiary",
+  "_T"           = "All levels"
+)
+
+arrival_lab <- c(
+  "Y_LT16" = "Arrived before age 16",
+  "Y_GE16" = "Arrived at age 16 or older",
+  "_T"     = "All arrival ages"
+)
+
+status_lab <- c("A" = "Normal value", "U" = "Low reliability", "O" = "Missing value")
+
+```
+
+```{r}
+cleaned_data <- raw_set |>
+  select(REF_AREA, TIME_PERIOD, SEX, AGE, ATTAINMENT_LEV,
+         MIGRATION_AGE, OBS_VALUE, OBS_STATUS) |>
+  mutate(
+    country     = unname(country_lab[REF_AREA]),
+    sex         = unname(sex_lab[SEX]),
+    age         = unname(age_lab[AGE]),
+    education   = unname(edu_lab[ATTAINMENT_LEV]),
+    arrival_age = unname(arrival_lab[MIGRATION_AGE]),
+    obs_status  = unname(status_lab[OBS_STATUS])
+  ) |>
+  rename(
+    country_code = REF_AREA,
+    year = TIME_PERIOD,
+    unemployment_rate_pct = OBS_VALUE
+  ) |>
+  select(country_code, country, year, sex, age, education,
+         arrival_age, unemployment_rate_pct, obs_status)
+
+# 4. Check for unmatched codes (every value should be FALSE)
+cleaned_data |>
+  summarise(across(c(country, sex, age, education, arrival_age, obs_status),
+                   ~ any(is.na(.x))))
+
+```
