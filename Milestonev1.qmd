@@ -4,6 +4,7 @@ format: pdf
 author: "Chih-Hsuan Chang"
 date: 2026-10-16
 abstract: "First try for data story"
+Source: https://data-explorer.oecd.org/vis?lc=en&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df[ag]=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BISR%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BOECD%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8...._Z%2BFB%2BNB._Z%2BY_LT16%2BY_GE16.....OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to[TIME_PERIOD]=true&lb=id&vw=ov
 ---
 
 ## Quarto
@@ -20,10 +21,7 @@ raw_set <- read_csv(
 )
 ```
 
-```{r}
-raw_set |> count(BIRTH_PLACE)
-raw_set |> count(BIRTH_PLACE, MIGRATION_AGE)
-```
+**簡單整理檔案裡面的label**
 
 ```{r}
 country_lab <- c(
@@ -53,6 +51,8 @@ arrival_lab <- c("Y_LT16" = "Arrived before age 16",
 status_lab <- c("A" = "Normal value", "U" = "Low reliability", "O" = "Missing value")
 
 ```
+
+**為了讓資料更一目了然，我想要把國家依照區域分類**
 
 ```{r}
 cleaned_data <- cleaned_data |>
@@ -87,4 +87,27 @@ cleaned_data |>
   count(region)
 
 write_excel_csv(cleaned_data, "cleaned_data.csv")
+```
+
+**接下來，我想要了解本地人跟外國人的失業率差距**
+
+```{r}
+native_born_data <- cleaned_data |>
+  filter(birth_place == "Native-born") |>
+  select(country, region, sex, age, education,
+         native_born_rate = unemployment_rate_pct) #unemployment_rate_pct「失業者佔該子群體勞動力的百分比」
+
+foreign_born_data <- cleaned_data |>
+  filter(birth_place == "Foreign-born") |>
+  select(country, region, sex, age, education, arrival_age,
+         foreign_born_rate = unemployment_rate_pct)
+
+```
+
+```{r}
+cleaned_data |>
+  filter(region == "Northern Europe") |>
+  group_by(birth_place) |>
+  summarise(mean_unemployment_rate = mean(unemployment_rate_pct),
+            n_rows = n())
 ```
