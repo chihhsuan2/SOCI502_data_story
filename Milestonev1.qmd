@@ -104,10 +104,5 @@ foreign_born_data <- cleaned_data |>
 
 ```
 
-```{r}
-cleaned_data |>
-  filter(region == "Northern Europe") |>
-  group_by(birth_place) |>
-  summarise(mean_unemployment_rate = mean(unemployment_rate_pct),
-            n_rows = n())
+```{}
 ```

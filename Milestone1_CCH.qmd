@@ -1,0 +1,157 @@
+---
+title: "Milestone1_simulate"
+format: pdf
+author: "Chih-Hsuan Chang"
+date: 2026-10-16
+abstract: "First try for data story"
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+```{r}
+library(tidyverse)
+
+set.seed(916)
+
+#Simulate the structure of the real data, based on the data of OECD
+country_region <- tibble(
+  country = c("Canada", "United States",
+              "Mexico", "Costa Rica", "Colombia", "Chile",
+              "Australia", "New Zealand",
+              "Austria", "Belgium", "France", "Germany", "Luxembourg",
+              "Netherlands", "Switzerland",
+              "Estonia", "Ireland", "Latvia", "Lithuania", "Norway",
+              "Sweden", "United Kingdom",
+              "Greece", "Italy", "Portugal", "Slovenia", "Spain",
+              "Bulgaria", "Czechia", "Hungary", "Poland", "Romania",
+              "Slovak Republic"),
+  region  = c(rep("Northern America", 2),
+              rep("Latin America", 4),
+              rep("Oceania", 2),
+              rep("Western Europe", 7),
+              rep("Northern Europe", 7),
+              rep("Southern Europe", 5),
+              rep("Eastern Europe", 6))
+)
+
+head(country_region)
+```
+
+```{r}
+#建立個人性質
+n_countries <- length(country_region$country)   # 33
+
+simulated_ppl <- tibble(
+  country = rep(country_region$country, each = 12),
+  sex = rep(rep(c("Female", "Male"), each = 6), times = n_countries),
+  education = rep(rep(c("Below upper secondary",
+                        "Upper secondary / post-secondary non-tertiary",
+                        "Tertiary"), each = 2),
+                  times = 2 * n_countries),
+  arrival_age = rep(c("Arrived before age 16", "Arrived at age 16 or older"),
+                    times = 6 * n_countries)
+)
+
+head(simulated_ppl)
+```
+
+```{r}
+#add region and development group
+simulated_groups <- 
+  simulated_ppl |>
+  left_join(country_region, by = "country") |>
+  mutate(
+    development_group = case_match(
+      region,
+      c("Northern America", "Oceania", "Western Europe", "Northern Europe") ~ "More developed",
+      c("Latin America", "Southern Europe", "Eastern Europe") ~ "Less developed",
+      .default = NA_character_
+    )
+  )
+
+head(simulated_groups)
+```
+
+```{r}
+#expected unemployment rate
+simulated_rates <- simulated_groups |>
+  mutate(
+    unemployment_rate = 3 +
+      if_else(development_group == "Less developed", 2.5, 0, missing = 0) +
+      case_match(education,
+                 "Below upper secondary" ~ 3,
+                 "Upper secondary / post-secondary non-tertiary" ~ 0,
+                 "Tertiary" ~ -2) +
+      if_else(sex == "Female", 0.5, 0) +
+      if_else(arrival_age == "Arrived before age 16", -1, 0)
+  )
+
+head(simulated_rates)
+```
+
+```{r}
+simulated_data <- simulated_rates |>
+  select(region, development_group, sex, education,
+         arrival_age, unemployment_rate)
+
+head(simulated_data)
+```
+
+```{r}
+women_tertiary_simulated <- simulated_data |>
+  filter(sex == "Female",
+         education == "Tertiary") |>
+  drop_na(development_group, unemployment_rate)
+
+#取發展好、不好的國家各自的平均
+mean_by_group <- women_tertiary_simulated |>
+  group_by(development_group) |>
+  summarise(mean_rate = mean(unemployment_rate))
+```
+
+**現在來試試看畫圖吧**
+
+```{r}
+mean_by_group |>
+  ggplot(aes(x = development_group, y = mean_rate)) +
+  geom_col() +
+  labs(x = NULL,
+       y = "Mean unemployment rate",
+       title = "Simulated: tertiary-educated foreign-born women")
+```
+
+```{r}
+women_tertiary_simulated |>
+  group_by(region, development_group) |>
+  summarise(mean_rate = mean(unemployment_rate), .groups = "drop") |>
+  ggplot(aes(x = region, y = mean_rate, fill = development_group)) +
+  geom_col() +
+  coord_flip() +
+  labs(x = NULL,
+       y = "Mean unemployment rate",
+       fill = "Group",
+       title = "Simulated: tertiary-educated foreign-born women, by region")
+```
+
+**第二個假設**
+
+```{r}
+mean_by_group_arrival <- women_tertiary_simulated |>
+  group_by(development_group, arrival_age) |>
+  summarise(mean_rate = mean(unemployment_rate),
+            .groups = "drop")
+
+mean_by_group_arrival
+```
+
+```{r}
+mean_by_group_arrival |>
+  ggplot(aes(x = development_group, y = mean_rate, fill = arrival_age)) +
+  geom_col(position = "dodge") +
+  labs(x = NULL,
+       y = "Mean unemployment rate",
+       fill = "Age at arrival",
+       title = "Simulated: tertiary-educated foreign-born women")
+```
