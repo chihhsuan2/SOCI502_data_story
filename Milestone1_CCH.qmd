@@ -8,7 +8,9 @@ abstract: "First try for data story"
 
 ## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Immigrants with a university degree are often expected to fare well in the labour market, yet a degree does not guarantee the same outcome everywhere. Women who immigrate may face disadvantages that combine gender and migration status, and the strength of these disadvantages may depend on where they settle and on when they arrived. Two factors seem especially worth examining. First, the destination country: I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions. Second, age at arrival: women who arrived before age 16 were likely to have completed much of their schooling in the destination country, so I expect their unemployment to be lower than that of women who arrived at age 16 or older, whose qualifications may have been earned elsewhere and who may have had less time to become familiar with the destination country.
+
+Using OECD data on unemployment rates by educational attainment, migration status, age group and gender, I describe how these two factors relate to unemployment among tertiary-educated foreign-born women.
 
 ```{r}
 library(tidyverse)
@@ -44,13 +46,16 @@ head(country_region)
 n_countries <- length(country_region$country)   # 33
 
 simulated_ppl <- tibble(
-  country = rep(country_region$country, each = 12),
-  sex = rep(rep(c("Female", "Male"), each = 6), times = n_countries),
+  country = rep(country_region$country, each = 18),
+  sex = rep(rep(c("Female", "Male"), each = 9), times = n_countries),
   education = rep(rep(c("Below upper secondary",
                         "Upper secondary / post-secondary non-tertiary",
-                        "Tertiary"), each = 2),
-                  times = 2 * n_countries),
-  arrival_age = rep(c("Arrived before age 16", "Arrived at age 16 or older"),
+                        "Tertiary"), each = 3),
+                    times = 2 * n_countries),
+  birth_place = rep(c("Foreign-born", "Foreign-born", "Native-born"),   
+                    times = 6 * n_countries),
+  arrival_age = rep(c("Arrived before age 16", "Arrived at age 16 or older",
+                      "Not applicable"),
                     times = 6 * n_countries)
 )
 
@@ -75,40 +80,44 @@ head(simulated_groups)
 ```
 
 ```{r}
-#expected unemployment rate
-simulated_rates <- simulated_groups |>
+#unemployment rate
+simulated_rates <- 
+  simulated_groups |>
   mutate(
-    unemployment_rate = 3 +
-      if_else(development_group == "Less developed", 2.5, 0, missing = 0) +
-      case_match(education,
-                 "Below upper secondary" ~ 3,
-                 "Upper secondary / post-secondary non-tertiary" ~ 0,
-                 "Tertiary" ~ -2) +
-      if_else(sex == "Female", 0.5, 0) +
-      if_else(arrival_age == "Arrived before age 16", -1, 0)
+    unemployment_rate = sample(seq(1, 15, by = 0.1),
+                               size = n(),
+                               replace = TRUE)
   )
 
 head(simulated_rates)
+simulated_rates |> summarise(min_rate = min(unemployment_rate),
+                             max_rate = max(unemployment_rate))
 ```
 
 ```{r}
-simulated_data <- simulated_rates |>
-  select(region, development_group, sex, education,
-         arrival_age, unemployment_rate)
-
-head(simulated_data)
+simulated_data <- 
+  simulated_rates |>
+  select(region, development_group, sex, education, birth_place, arrival_age, unemployment_rate)
 ```
 
 ```{r}
-women_tertiary_simulated <- simulated_data |>
+women_tertiary_simulated <- 
+  simulated_data |>
   filter(sex == "Female",
          education == "Tertiary") |>
-  drop_na(development_group, unemployment_rate)
+  drop_na(development_group, unemployment_rate) |>
+  mutate(comparison_group = if_else(birth_place == "Native-born",
+                                    "Native-born",
+                                    arrival_age))
 
-#取發展好、不好的國家各自的平均
-mean_by_group <- women_tertiary_simulated |>
+# ★ CHANGED: only foreign-born women for the first mean
+mean_by_group <- 
+  women_tertiary_simulated |>
+  filter(birth_place == "Foreign-born") |>
   group_by(development_group) |>
   summarise(mean_rate = mean(unemployment_rate))
+
+mean_by_group
 ```
 
 **現在來試試看畫圖吧**
@@ -123,7 +132,15 @@ mean_by_group |>
 ```
 
 ```{r}
+mean_by_group |>
+  ggplot(aes(x = development_group, y = mean_rate)) +
+  geom_col() +
+  labs(x = NULL,
+       y = "Mean unemployment rate",
+       title = "Simulated: tertiary-educated foreign-born women")
+
 women_tertiary_simulated |>
+  filter(birth_place == "Foreign-born") |>                    # ★ CHANGED (added)
   group_by(region, development_group) |>
   summarise(mean_rate = mean(unemployment_rate), .groups = "drop") |>
   ggplot(aes(x = region, y = mean_rate, fill = development_group)) +
@@ -138,12 +155,22 @@ women_tertiary_simulated |>
 **第二個假設**
 
 ```{r}
-mean_by_group_arrival <- women_tertiary_simulated |>
+mean_by_group_arrival <- 
+  women_tertiary_simulated |>
+  filter(birth_place == "Foreign-born") |>                 
   group_by(development_group, arrival_age) |>
   summarise(mean_rate = mean(unemployment_rate),
             .groups = "drop")
 
 mean_by_group_arrival
+
+mean_by_group_arrival |>
+  ggplot(aes(x = development_group, y = mean_rate, fill = arrival_age)) +
+  geom_col(position = "dodge") +
+  labs(x = NULL,
+       y = "Mean unemployment rate",
+       fill = "Age at arrival",
+       title = "Simulated: tertiary-educated foreign-born women")
 ```
 
 ```{r}
@@ -154,4 +181,31 @@ mean_by_group_arrival |>
        y = "Mean unemployment rate",
        fill = "Age at arrival",
        title = "Simulated: tertiary-educated foreign-born women")
+```
+
+```{r}
+mean_by_comparison <- 
+  women_tertiary_simulated |>
+  group_by(development_group, comparison_group) |>
+  summarise(mean_rate = mean(unemployment_rate), .groups = "drop")
+
+mean_by_comparison
+
+# ★foreign-born - native-born
+gap_table <- mean_by_comparison |>
+  pivot_wider(names_from = comparison_group, values_from = mean_rate) |>
+  mutate(gap_arrived_before_16 = `Arrived before age 16` - `Native-born`,
+         gap_arrived_16_or_older = `Arrived at age 16 or older` - `Native-born`)
+
+gap_table
+```
+
+```{r}
+mean_by_comparison |>
+  ggplot(aes(x = development_group, y = mean_rate, fill = comparison_group)) +
+  geom_col(position = "dodge") +
+  labs(x = NULL,
+       y = "Mean unemployment rate",
+       fill = "Group",
+       title = "Simulated: tertiary-educated women")
 ```
