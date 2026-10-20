@@ -3,18 +3,31 @@ title: "Milestone1_simulate"
 format: pdf
 author: "Chih-Hsuan Chang"
 date: 2026-10-16
-abstract: "First try for data story"
+abstract: "Using simulated data modelled on OECD unemployment statistics, this project plans to compare tertiary-educated foreign-born and native-bornwomen across more and less developed regions, and by age at arrival."
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
 ---
 
-## Quarto
+## Unemployment among Highly Educated Immigrant Women by Destination and Age at Arrival
 
-Immigrants with a university degree are often expected to fare well in the labour market, yet a degree does not guarantee the same outcome everywhere. Women who immigrate may face disadvantages that combine gender and migration status, and the strength of these disadvantages may depend on where they settle and on when they arrived. Two factors seem especially worth examining. First, the destination country: I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions. Second, age at arrival: women who arrived before age 16 were likely to have completed much of their schooling in the destination country, so I expect their unemployment to be lower than that of women who arrived at age 16 or older, whose qualifications may have been earned elsewhere and who may have had less time to become familiar with the destination country.
+Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrant women may face disadvantages that combine gender and migration status. The strength of these disadvantages may depend on where they settle and on when they arrived. Two factors seem especially worth examining. First, **the destination country**: as more developed countries may have more established systems for recognizing foreign qualifications, I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions. Second, **age at arrival**: women who arrived before age 16 were likely to have intergrated and completed much of their schooling in the destination country, so I expect their unemployment to be lower than that of women who arrived at age 16 or older, whose qualifications may have been earned elsewhere and who may have had less time to become familiar with the destination country.
 
-Using OECD data on unemployment rates by educational attainment, migration status, age group and gender, I describe how these two factors relate to unemployment among tertiary-educated foreign-born women.
+Furthermore, a low unemployment rate among immigrants may simply reflect a strong labor market that benefits everyone. To separate the two, I also compare each foreign-born group with native-born women of the same region and education level, and examine the gap between them (foreign-born minus native-born unemployment rate). If immigrant women are better off in more developed regions for reasons beyond general labor market conditions, I expect this gap to be smaller in more developed regions than in less developed ones.
+
+Using 2023 OECD data on unemployment rates, I describe how two factors, destination country and age at arrival, relate to unemployment among tertiary-educated foreign-born women. The data come from the OECD Data Explorer (dataflow DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by sex, age group, education level, place of birth (foreign-born or native-born) and, for the foreign-born, age at arrival (before age 16, or 16 and older). The outcome variable is the unemployment rate, measured as **a percentage of the subgroup’s labor force**. I keep women with tertiary education, group countries into regions, and then into “more developed” and “less developed” regions. I compare foreign-born women **by region** and **by age at arrival**, and compare them with native-born women of the same region and education level. I exclude Israel, the only country in the Western Asia region in this data, because it is difficult to classify as either a more or less developed region, and I exclude the OECD average because it is not a country.
 
 ```{r}
 library(tidyverse)
+library(tinytex)
+library(knitr)
+```
 
+**PART I: simulating data**
+
+```{r}
 set.seed(916)
 
 #Simulate the structure of the real data, based on the data of OECD
@@ -42,8 +55,8 @@ head(country_region)
 ```
 
 ```{r}
-#建立個人性質
-n_countries <- length(country_region$country)   # 33
+#add characteristics
+n_countries <- length(country_region$country)   
 
 simulated_ppl <- tibble(
   country = rep(country_region$country, each = 18),
@@ -80,7 +93,7 @@ head(simulated_groups)
 ```
 
 ```{r}
-#unemployment rate
+#add unemployment rate
 simulated_rates <- 
   simulated_groups |>
   mutate(
@@ -90,8 +103,10 @@ simulated_rates <-
   )
 
 head(simulated_rates)
-simulated_rates |> summarise(min_rate = min(unemployment_rate),
-                             max_rate = max(unemployment_rate))
+simulated_rates |> 
+  summarise(min_rate = 
+            min(unemployment_rate),
+            max_rate = max(unemployment_rate))
 ```
 
 ```{r}
@@ -110,7 +125,7 @@ women_tertiary_simulated <-
                                     "Native-born",
                                     arrival_age))
 
-# ★ CHANGED: only foreign-born women for the first mean
+#only foreign-born women for the first mean
 mean_by_group <- 
   women_tertiary_simulated |>
   filter(birth_place == "Foreign-born") |>
@@ -120,27 +135,53 @@ mean_by_group <-
 mean_by_group
 ```
 
-**現在來試試看畫圖吧**
+Table 1 shows 10 randomly selected rows of the simulated data, where each row is a subgroup in one country, defined by region, place of birth and age at arrival, together with its simulated unemployment rate.
 
 ```{r}
+simulated_data |>
+  head(10) |>
+  select(region, development_group, birth_place, arrival_age, unemployment_rate) |>
+  kable(
+    col.names = c("Region", "Group", "Place of birth", "Age at arrival", "Unemployment rate (%)"),
+    align = c("l", "l", "l", "l", "r"),
+    caption = "Table1:Simulated data"
+  )
+```
+
+Table 2 shows the simulated mean gap in unemployment rate between foreign-born and native-born women in more and less developed regions, separately for women who arrived before age 16 and those who arrived at age 16 or older.
+
+```{r}
+gap_by_development |>
+  kable(
+    digits = 2,
+    col.names = c("Group",
+                  "Arrived before age 16",
+                  "Arrived at age 16 or older"),
+    align = c("l", "r", "r"),
+    caption = "Table 2: Simulated mean gap in unemployment rate"
+  )
+```
+
+**PART II: Graph**
+
+The following figures use the simulated data to show what the patterns would look like if the data followed each hypothesis.
+
+Figure 1-1 and 1-2 compare the simulated mean unemployment rate of tertiary-educated foreign-born women in more and less developed regions.
+
+```{r}
+#H1a
 mean_by_group |>
   ggplot(aes(x = development_group, y = mean_rate)) +
   geom_col() +
   labs(x = NULL,
        y = "Mean unemployment rate",
-       title = "Simulated: tertiary-educated foreign-born women")
+       title = "Figure 1-1: tertiary-educated foreign-born women")
 ```
 
 ```{r}
-mean_by_group |>
-  ggplot(aes(x = development_group, y = mean_rate)) +
-  geom_col() +
-  labs(x = NULL,
-       y = "Mean unemployment rate",
-       title = "Simulated: tertiary-educated foreign-born women")
-
+#H1b
 women_tertiary_simulated |>
-  filter(birth_place == "Foreign-born") |>                    # ★ CHANGED (added)
+  filter(birth_place == "Foreign-born") |>                   
   group_by(region, development_group) |>
   summarise(mean_rate = mean(unemployment_rate), .groups = "drop") |>
   ggplot(aes(x = region, y = mean_rate, fill = development_group)) +
@@ -149,12 +190,13 @@ women_tertiary_simulated |>
   labs(x = NULL,
        y = "Mean unemployment rate",
        fill = "Group",
-       title = "Simulated: tertiary-educated foreign-born women, by region")
+       title = "Figure 1-2: tertiary-educated foreign-born women, by region")
 ```
 
-**第二個假設**
+Figure 2 compares the simulated mean unemployment rate of women who arrived before age 16 with those who arrived at age 16 or older.
 
 ```{r}
+#H2a
 mean_by_group_arrival <- 
   women_tertiary_simulated |>
   filter(birth_place == "Foreign-born") |>                 
@@ -170,42 +212,75 @@ mean_by_group_arrival |>
   labs(x = NULL,
        y = "Mean unemployment rate",
        fill = "Age at arrival",
-       title = "Simulated: tertiary-educated foreign-born women")
+       title = "Figure 2: tertiary-educated foreign-born women")
 ```
 
-```{r}
-mean_by_group_arrival |>
-  ggplot(aes(x = development_group, y = mean_rate, fill = arrival_age)) +
-  geom_col(position = "dodge") +
-  labs(x = NULL,
-       y = "Mean unemployment rate",
-       fill = "Age at arrival",
-       title = "Simulated: tertiary-educated foreign-born women")
-```
+Figure 3-1 compares the simulated mean gap in unemployment rate between foreign-born women who arrived before age 16 and native-born women, in more and less developed regions.
+
+Figure 3-2 shows the same comparison for foreign-born women who arrived at age 16 or older.
+
+(The group means average the gaps of regions equally, without weighting by the number of countries or by population size.)
 
 ```{r}
-mean_by_comparison <- 
+#mean rate of native-born women
+native_born_mean <- 
   women_tertiary_simulated |>
-  group_by(development_group, comparison_group) |>
-  summarise(mean_rate = mean(unemployment_rate), .groups = "drop")
+  filter(birth_place == "Native-born") |>
+  group_by(region, development_group) |>
+  summarise(native_born_rate = mean(unemployment_rate), .groups = "drop")
 
-mean_by_comparison
+native_born_mean
 
-# ★foreign-born - native-born
-gap_table <- mean_by_comparison |>
-  pivot_wider(names_from = comparison_group, values_from = mean_rate) |>
-  mutate(gap_arrived_before_16 = `Arrived before age 16` - `Native-born`,
-         gap_arrived_16_or_older = `Arrived at age 16 or older` - `Native-born`)
+#mean rate of foreign-born women, by age at arrival
+foreign_born_mean <-
+  women_tertiary_simulated |>
+  filter(birth_place == "Foreign-born") |>
+  group_by(region, development_group, arrival_age) |>
+  summarise(foreign_born_rate = mean(unemployment_rate), .groups = "drop")
 
-gap_table
+foreign_born_mean
+
+#calculate the gap by regions
+gap_by_region <- 
+  women_tertiary_simulated |>
+  group_by(region, development_group) |>
+  summarise(
+    native_born_rate = mean(unemployment_rate[birth_place == "Native-born"]),
+    foreign_born_before_16_rate = mean(unemployment_rate[arrival_age == "Arrived before age 16"]),
+    foreign_born_16_or_older_rate = mean(unemployment_rate[arrival_age == "Arrived at age 16 or older"]),
+    .groups = "drop"
+  ) |>
+  mutate(gap_before_16 = foreign_born_before_16_rate - native_born_rate,
+         gap_16_or_older = foreign_born_16_or_older_rate - native_born_rate)
+
+gap_by_region
+
+#calculate the gap by development groups
+gap_by_development <- gap_by_region |>
+  group_by(development_group) |>
+  summarise(mean_gap_before_16 = mean(gap_before_16),
+            mean_gap_16_or_older = mean(gap_16_or_older))
+
+gap_by_development
 ```
 
 ```{r}
-mean_by_comparison |>
-  ggplot(aes(x = development_group, y = mean_rate, fill = comparison_group)) +
-  geom_col(position = "dodge") +
+gap_by_development |>
+  ggplot(aes(x = development_group, y = mean_gap_before_16)) +
+  geom_col() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
   labs(x = NULL,
-       y = "Mean unemployment rate",
-       fill = "Group",
-       title = "Simulated: tertiary-educated women")
+       y = "Mean gap, arrived before 16",
+       title = "Figure 3-1: tertiary-educated women who arrived before age 16, by development group")
+
+```
+
+```{r}
+gap_by_development |>
+  ggplot(aes(x = development_group, y = mean_gap_16_or_older)) +
+  geom_col() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(x = NULL,
+       y = "Mean gap, arrived 16 or older",
+       title = "tertiary-educated women who arrived at age 16 or older, by development group")
 ```
