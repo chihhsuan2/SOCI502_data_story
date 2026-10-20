@@ -1,6 +1,6 @@
 ---
 title: "Milestone1"
-format: html
+format: pdf
 author: "Chih-Hsuan Chang"
 date: 2026-10-16
 abstract: "First try for data story"
@@ -10,6 +10,7 @@ abstract: "First try for data story"
 
 ```{r}
 library(tidyverse)
+library(dplyr)
 ```
 
 You can add options to executable code like this
@@ -86,4 +87,65 @@ cleaned_data |>
   summarise(across(c(country, sex, age, education, arrival_age, obs_status),
                    ~ any(is.na(.x))))
 
+```
+
+```{r}
+head(cleaned_data)
+write_excel_csv(cleaned_data, "cleaned_data.csv")
+```
+
+```{r}
+cleaned_data <- cleaned_data |>
+  filter(sex != "Total",
+         education != "All levels",
+         arrival_age != "All arrival ages",
+         age != "25-64 (all)",
+         country != "OECD average")
+
+# 檢查
+cleaned_data |> count(sex)
+cleaned_data |> count(age)
+cleaned_data |> count(education)
+cleaned_data |> count(arrival_age)
+```
+
+```{r}
+#只用2023年的資料
+cleaned_data <- cleaned_data |>
+  filter(year == 2023, !is.na(unemployment_rate_pct))
+```
+
+```{r}
+cleaned_data |>
+  count(sex)
+```
+
+```{r}
+#把國家按照不同區域排
+data <- read_csv("cleaned_data.csv")
+class(data)
+
+data <- data |>
+  mutate(
+    Region = case_when(
+      country %in% c("Norway", "Sweden") ~ "Northern Europe",
+      country %in% c("Austria", "Belgium", "Switzerland", "Germany", "France",
+                     "United Kingdom", "Ireland", "Luxembourg", "Netherlands") ~ "Western Europe",
+      country %in% c("Bulgaria", "Czechia", "Estonia", "Hungary", "Lithuania",
+                     "Latvia", "Poland", "Romania", "Slovak Republic", "Slovenia") ~ "Eastern Europe",
+      country %in% c("Spain", "Greece", "Italy", "Portugal") ~ "Southern Europe",
+      country %in% c("Chile", "Colombia", "Costa Rica", "Mexico") ~ "Latin America",
+      country %in% c("Canada", "United States") ~ "North America",
+      country %in% c("Australia", "New Zealand") ~ "Oceania",
+      country == "Israel" ~ "Middle East",
+      country == "OECD average" ~ "OECD average",
+      .default = NA_character_
+    )
+  )
+```
+
+```{r}
+#刪掉OECD average的國家
+data <- data |>
+  filter(country != "OECD")
 ```
