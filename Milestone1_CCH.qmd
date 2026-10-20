@@ -9,17 +9,15 @@ execute:
   warning: false
   message: false
 bibliography: bibliography.bib
-nocite: |
-  @citeR, @tellingstories
 ---
 
-## Unemployment among Highly Educated Immigrant Women by Destination and Age at Arrival
+## Unemployment Rate among Highly Educated Immigrant Women by Destination and Age at Arrival
 
 ## Introduction
 
 ### Questions
 
-Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrants may face disadvantages that combine gender and migration status. The strength of these disadvantages may depend on where they settle and on when they arrived. For this research, I focus on highly educated female immigrants and ask: **Does the unemployment rate of tertiary-educated foreign-born women vary by the development level of the destination country and by age at arrival?**
+Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrants may face disadvantages depend on where they settle and on when they arrived. For this research, I focus on highly educated female immigrants and ask: **Does the unemployment rate of tertiary-educated foreign-born women vary by the development level of the destination country and by age at arrival?**
 
 First, **the destination country**: as more developed countries may have more established systems for recognizing foreign qualifications, I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions. Second, **age at arrival**: women who arrived before age 16 were likely to have integrated and completed much of their schooling in the destination country, so I expect their unemployment to be lower than that of women who arrived at age 16 or older, whose qualifications may have been earned elsewhere and who may have had less time to become familiar with the destination country.
 
@@ -27,7 +25,7 @@ To make the analysis more robust, I also account for general labor market condit
 
 ### Data
 
-For this project, I plan to using 2023 OECD data on unemployment rates. The data come from the OECD Data Explorer (dataflow DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by sex, age group, education level, place of birth (foreign-born or native-born) and, for the foreign-born, age at arrival (before age 16, or 16 and older). The outcome variable is the unemployment rate, measured as **a percentage of the subgroup’s labor force**. I plan to keep women with tertiary education, group countries into regions, and then into “more developed” and “less developed” regions. I compare foreign-born women **by region** and **by age at arrival**, and compare them with native-born women of the same region and education level. I exclude Israel because it is difficult to classify as either a more or less developed region, and I exclude the OECD average because it is not a country.
+The analysis was conducted in R [@citeR] [@tellingstories]. For this project, I plan to using **2023 OECD data on unemployment rates** [@oecddata]. The data come from the OECD Data Explorer (DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by sex, age group, education level, place of birth (foreign-born or native-born) and, for the foreign-born, age at arrival (before age 16, or 16 and older). The outcome variable is the unemployment rate, measured as a percentage of the subgroup’s labor force. I plan to keep women with tertiary education, group countries into regions, and then into “more developed” and “less developed” regions. I compare foreign-born women **by region** and **by age at arrival**, and compare them with native-born women of the same region and education level. I exclude Israel because it is difficult to classify as either a more or less developed region, and I exclude the OECD average because it is not a country.
 
 ### Limitations
 
@@ -314,5 +312,3 @@ gap_by_development |>
 ```
 
 ## Reference
-
-\[\@citeR\] \[\@tellingstories\]
