@@ -160,7 +160,7 @@ mean_by_group <-
 mean_by_group
 ```
 
-### Table 1
+### Table
 
 Table 1 shows 10 randomly selected rows of the simulated data, where each row is a subgroup in one country, defined by region and place of birth, together with its simulated unemployment rate.
 
@@ -180,7 +180,7 @@ simulated_data |>
 
 The following figures use the simulated data to show what the patterns would look like if the data followed each hypothesis.
 
-### Figure 1
+### Figure
 
 Figure 1 compare the simulated mean unemployment rate of tertiary-educated foreign-born women in more and less developed regions.
 
