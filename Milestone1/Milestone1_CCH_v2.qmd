@@ -17,23 +17,19 @@ bibliography: bibliography.bib
 
 ### Questions
 
-Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrants may face disadvantages depend on where they settle and on when they arrived. For this research, I focus on highly educated female immigrants and ask: **Does the unemployment rate of tertiary-educated foreign-born women vary by the development level of the destination country? Specifically, is it lower if immigrant women migrate to more developed countries?**
-
-As more developed countries may have more established systems for recognizing foreign qualifications, I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions.
-
-To make the analysis more robust, I also account for general labor market conditions. A low unemployment rate among immigrants may simply reflect a strong labor market that benefits everyone. To separate the two, I also compare each foreign-born group with native-born women of the same region and education level, and examine the gap between them (foreign-born minus native-born unemployment rate). If immigrant women are better off in more developed regions for reasons beyond general labor market conditions, I expect this gap to be smaller in more developed regions than in less developed ones.
+Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrants may face disadvantages depend on where they settle. For this research, I focus on highly educated female immigrants and ask: **Does the unemployment rate of tertiary-educated foreign-born women vary by the development level of the destination country? Specifically, is it lower if immigrant women migrate to more developed countries?** As more developed countries may have more established systems for recognizing foreign qualifications, I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions.
 
 ### Data
 
-The analysis was conducted in R [@citeR] [@tellingstories]. For this project, I plan to using **2023 OECD data on unemployment rates** [@oecddata]. The data come from the OECD Data Explorer (DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by sex, age group, education level, place of birth (foreign-born or native-born) and, for the foreign-born, age at arrival (before age 16, or 16 and older). The outcome variable is the unemployment rate, measured as a percentage of the subgroup’s labor force. I plan to keep women with tertiary education, group countries into regions, and then into “more developed” and “less developed” regions. I compare foreign-born women **by region**, and compare them with native-born women of the same region and education level. I exclude Israel because it is difficult to classify as either a more or less developed region, and I exclude the OECD average because it is not a country.
+The analysis was conducted in R [@citeR] [@tellingstories]. For this project, I plan to using **2023 OECD data on unemployment rates** [@oecddata]. The data come from the OECD Data Explorer (DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by sex, age group, education level, place of birth (foreign-born or native-born) and, for the foreign-born, age at arrival (before age 16, or 16 and older). My outcome variable will be the unemployment rate. I plan to keep women with tertiary education, group countries into regions, and then into “more developed” and “less developed” regions. I exclude Israel because it is difficult to classify as either a more or less developed region, and I exclude the OECD average because it is not a country.
+
+### Expected Results
+
+I will treat the hypotheses as supported if the mean unemployment rate is lower in more developed than in less developed regions by about 1 percentage point or more. If the differences are small, or are inconsistent across groups, I will conclude that there is no clear pattern.
 
 ### Limitations
 
 Although the OECD provides detailed data, it does not report immigrants’ country of origin. Where immigrants come from may affect whether their educational credentials are recognized in the country of destination, and therefore their unemployment rate. As a result, differences across destination countries in this analysis may partly reflect differences in the origins of their immigrant populations, rather than characteristics of the destination countries themselves.
-
-### Expected Results
-
-I will treat the hypotheses as supported if, for both arrival-age groups, the mean unemployment rate is lower in more developed than in less developed regions by about 1 percentage point or more. Moreover, the gap between foreign-born and native-born women (foreign-born minus native-born) is smaller in more developed regions than in less developed regions by about 1 percentage point or more. If the differences are small, or are inconsistent across groups, I will conclude that there is no clear pattern.
 
 ```{r}
 library(tidyverse)
@@ -154,47 +150,6 @@ mean_by_group <-
 mean_by_group
 ```
 
-```{r}
-#mean rate of native-born women
-native_born_mean <- 
-  women_tertiary_simulated |>
-  filter(birth_place == "Native-born") |>
-  group_by(region, development_group) |>
-  summarise(native_born_rate = mean(unemployment_rate), .groups = "drop")
-
-native_born_mean
-
-#mean rate of foreign-born women
-foreign_born_mean <-
-  women_tertiary_simulated |>
-  filter(birth_place == "Foreign-born") |>
-  group_by(region, development_group) |>
-  summarise(foreign_born_rate = mean(unemployment_rate), .groups = "drop")
-
-foreign_born_mean
-
-#calculate the gap by regions
-gap_by_region <- 
-  women_tertiary_simulated |>
-  group_by(region, development_group) |>
-  summarise(
-    native_born_rate = mean(unemployment_rate[birth_place == "Native-born"]),
-    foreign_born_rate = mean(unemployment_rate[birth_place == "Foreign-born"]),
-    .groups = "drop"
-  ) |>
-  mutate(gap = foreign_born_rate - native_born_rate)
-
-gap_by_region
-
-#calculate the gap by development groups
-#The group means average the gaps of regions equally, without weighting by the number of countries or by population size.
-gap_by_development <- gap_by_region |>
-  group_by(development_group) |>
-  summarise(mean_gap = mean(gap))
-
-gap_by_development
-```
-
 ### Table 1
 
 Table 1 shows 10 randomly selected rows of the simulated data, where each row is a subgroup in one country, defined by region and place of birth, together with its simulated unemployment rate.
@@ -227,23 +182,6 @@ mean_by_group |>
   labs(x = NULL,
        y = "Mean unemployment rate",
        title = "Figure 1: Unemployment Rate of Tertiary-Educated\nForeign-Born Women by development group")+
-  theme(plot.title = element_text(size = 12))
-```
-
-### Figure 2
-
-Figure 2 compares the simulated mean gap in unemployment rate between foreign-born women in more and less developed regions.
-
-(The group means average the gaps of regions equally, without weighting by the number of countries or by population size.)
-
-```{r}
-gap_by_development |>
-  ggplot(aes(x = development_group, y = mean_gap)) +
-  geom_col() +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  labs(x = NULL,
-       y = "Mean gap",
-       title = "Figure 2: Unemployment rate gap between foreign-born and native-born\ntertiary-educated women, by development group") +
   theme(plot.title = element_text(size = 12))
 ```
 
