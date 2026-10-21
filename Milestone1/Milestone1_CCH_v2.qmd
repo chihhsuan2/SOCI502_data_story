@@ -8,40 +8,50 @@ execute:
   output: true
   warning: false
   message: false
-bibliography: bibliography.bib
+references:
+- id: oecddata
+  type: dataset
+  title: "DSD_EAG_LSO_EA@DF_LSO_NEAC_UNEMP_MIGR"
+  author:
+  - literal: OECD
+  publisher: OECD Data Explorer
+  issued:
+    year: 2023
+  accessed:
+    year: 2026
+    month: 10
+    day: 16
+  URL: "https://data-explorer.oecd.org/vis?lc=en&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df[ag]=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BISR%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BOECD%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8...._Z%2BFB%2BNB._Z%2BY_LT16%2BY_GE16.....OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to[TIME_PERIOD]=true&lb=id&vw=ov"
 ---
 
-# Unemployment Rate among Highly Educated Immigrant Women by the Country of Destination 
+# Unemployment Rate among Highly-Educated Immigrant Women by the Country of Destination 
 
 ## Introduction
 
 ### Questions
 
-Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrants may face disadvantages depend on where they settle. For this research, I focus on highly educated female immigrants and ask: **Does the unemployment rate of tertiary-educated foreign-born women vary by the development level of the destination country? Specifically, is it lower if immigrant women migrate to more developed countries?** As more developed countries may have more established systems for recognizing foreign qualifications, I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions.
+Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrants may face disadvantages depend on where they settle. For this research, I focus on highly educated female immigrants and ask: **Does the unemployment rate of tertiary-educated foreign-born women vary by the development level of the destination country? Specifically, is the unemployment rate lower if immigrant women migrate to more developed countries?**
 
 ### Data
 
-The analysis was conducted in R [@citeR] [@tellingstories]. For this project, I plan to using **2023 OECD data on unemployment rates** [@oecddata]. The data come from the OECD Data Explorer (DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by sex, age group, education level, place of birth (foreign-born or native-born) and, for the foreign-born, age at arrival (before age 16, or 16 and older). My outcome variable will be the unemployment rate. I plan to keep women with tertiary education, group countries into regions, and then into “more developed” and “less developed” regions. I exclude Israel because it is difficult to classify as either a more or less developed region, and I exclude the OECD average because it is not a country.
+For this project, I plan to use **2023 OECD data on unemployment rates** [@oecddata]. The data comes from the OECD Data Explorer (DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by variables such as sex, age group, education level and place of birth, together with its unemployment rate. The data contain other columns, which I do not list here.
+
+My outcome variable will be the unemployment rate. I plan to keep tertiary-educated women, group countries into regions, and then group the regions into “more developed” and “less developed” regions. I will exclude Israel because it is difficult to classify as either a more or less developed region, and I also exclude the OECD average because it is not a country.
 
 ### Expected Results
 
-I will treat the hypotheses as supported if the mean unemployment rate is lower in more developed than in less developed regions by about 1 percentage point or more. If the differences are small, or are inconsistent across groups, I will conclude that there is no clear pattern.
+As more developed countries may have more established systems for recognizing foreign qualifications, I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions.
+
+I will treat the hypotheses as supported if the mean unemployment rate is lower in more developed than in less developed regions by about 1 percentage point or more. If the differences are small, I will conclude that there is no clear pattern.
 
 ### Limitations
 
-Although the OECD provides detailed data, it does not report immigrants’ country of origin. Where immigrants come from may affect whether their educational credentials are recognized in the country of destination, and therefore their unemployment rate. As a result, differences across destination countries in this analysis may partly reflect differences in the origins of their immigrant populations, rather than characteristics of the destination countries themselves.
+Although the OECD data provides detailed data, it does not report immigrants’ country of origin. Where immigrants come from may affect whether their educational credentials are recognized in the country of destination, and therefore their unemployment rate. As a result, differences in unemployment rates may partly reflect differences in the origins of their immigrant populations, rather than characteristics of the destination countries themselves.
 
 ```{r}
 library(tidyverse)
 library(tinytex)
-library(knitr)
-```
-
-```{r}
-raw_set <- read_csv(
-  "OECD_raw_v2.csv",
-  show_col_types = FALSE
-)
+library(knitr) #for kable
 ```
 
 ------------------------------------------------------------------------
