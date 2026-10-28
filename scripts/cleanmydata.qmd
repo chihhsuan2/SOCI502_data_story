@@ -13,10 +13,14 @@ library(tidyverse)
 library(dplyr)
 ```
 
-Read my raw data from [https://data-explorer.oecd.org/vis?lc=en&df\[ds\]=dsDisseminateFinalDMZ&df\[id\]=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df\[ag\]=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to\[TIME_PERIOD\]=true&lb=nm&vw=ov](https://data-explorer.oecd.org/vis?lc=en&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df[ag]=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to[TIME_PERIOD]=true&lb=nm&vw=ov)
+Read my raw data from <https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov>
 
 ```{r}
 raw_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/raw_data_1027.csv")
+```
+
+```{r}
+names(raw_data)
 ```
 
 ```{r}
@@ -33,7 +37,7 @@ count(clean_data, sex)
 
 ```{r}
 clean_data <- 
-  clean_data |>
+  clean_data  |>
   mutate(age = case_when(
     AGE == "Y25T34" ~ "25-34",
     AGE == "Y35T44" ~ "35-44",
@@ -84,7 +88,7 @@ count(clean_data, REF_AREA, country)
 
 ```{r}
 clean_data <- 
-  clean_data |>
+  raw_data |>
   mutate(birth = case_when(
     BIRTH_PLACE == "NB" ~ "native-born",
     BIRTH_PLACE == "FB" ~ "foreign-born"
@@ -94,5 +98,29 @@ count(clean_data, birth)
 ```
 
 ```{r}
+head(clean_data)
+```
+
+```{r}
+clean_data <- 
+  raw_data |>
+  mutate(birth = case_when(
+    BIRTH_PLACE == "NB" ~ "native-born",
+    BIRTH_PLACE == "FB" ~ "foreign-born"
+  ))
+
+count(clean_data, birth)
+```
+
+```{r}
+head(clean_data)
+```
+
+```{r}
 write_csv(clean_data, "/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
+```
+
+```{r}
+library(tinytex)
+
 ```
