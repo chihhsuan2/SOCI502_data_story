@@ -21,9 +21,12 @@ raw_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_sto
 
 ```{r}
 names(raw_data)
+
 ```
 
 ```{r}
+raw_data |> count(SEX)
+
 clean_data <- 
   raw_data |>
   mutate(sex = case_when(
@@ -36,6 +39,8 @@ count(clean_data, sex)
 ```
 
 ```{r}
+raw_data |> count(AGE)
+
 clean_data <- 
   clean_data  |>
   mutate(age = case_when(
@@ -51,6 +56,8 @@ count(clean_data, age)
 ```
 
 ```{r}
+raw_data |> count(ATTAINMENT_LEV)
+
 # 教育程度
 clean_data <- 
   clean_data |>
@@ -65,6 +72,8 @@ count(clean_data, edu)
 ```
 
 ```{r}
+raw_data |> count(REF_AREA)
+
 # 國家對照表
 country_names <- c(
   AUS = "Australia", AUT = "Austria", BEL = "Belgium", BGR = "Bulgaria",
@@ -83,12 +92,14 @@ clean_data <-
   clean_data |>
   mutate(country = unname(country_names[REF_AREA]))
 
-count(clean_data, REF_AREA, country)
+count(clean_data, country)
 ```
 
 ```{r}
+raw_data |> count(BIRTH_PLACE)
+
 clean_data <- 
-  raw_data |>
+  clean_data  |>
   mutate(birth = case_when(
     BIRTH_PLACE == "NB" ~ "native-born",
     BIRTH_PLACE == "FB" ~ "foreign-born"
@@ -98,18 +109,18 @@ count(clean_data, birth)
 ```
 
 ```{r}
-head(clean_data)
+count(raw_data, MEASURE, UNIT_MEASURE)
+clean_data <-
+  clean_data |>
+  rename(unemp_rate = OBS_VALUE)
 ```
 
 ```{r}
-clean_data <- 
-  raw_data |>
-  mutate(birth = case_when(
-    BIRTH_PLACE == "NB" ~ "native-born",
-    BIRTH_PLACE == "FB" ~ "foreign-born"
-  ))
-
-count(clean_data, birth)
+# 只保留整理好的變項
+clean_data <-
+  clean_data |>
+  filter(MIGRATION_AGE %in% c("_Z", "_T")) |>
+  select(country, sex, age, edu, birth, unemp_rate)
 ```
 
 ```{r}
@@ -118,9 +129,4 @@ head(clean_data)
 
 ```{r}
 write_csv(clean_data, "/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
-```
-
-```{r}
-library(tinytex)
-
 ```
