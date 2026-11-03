@@ -31,11 +31,7 @@ table(clean_data$country)
 ```
 
 ```{r}
-sum(is.na(clean_data$unemp_rate))          # 缺值筆數
-mean(is.na(clean_data$unemp_rate)) * 100   # 缺值比例（%）
-```
-
-```{r}
+# 哪些國家有缺失值
 clean_data |>
   group_by(country) |>
   summarise(n = n(),
@@ -46,10 +42,46 @@ clean_data |>
 
 ```{r}
 clean_data |>
-  filter(sex == "female") |>
+  filter(sex == "female" & edu == "tertiary") |>
   group_by(country) |>
   summarise(n = n(),
             n_missing = sum(is.na(unemp_rate))) |>
   filter(n_missing > 0) |>
   arrange(desc(n_missing))
+```
+
+```{r}
+#了解高等教育女性的缺失值發生在哪裡
+clean_data |>
+  filter(sex == "female", edu == "tertiary", is.na(unemp_rate)) |>
+  arrange(country, birth, age) |>
+  group_by(country, birth) |>
+  summarise(missing_ages = paste(age, collapse = ", "), .groups = "drop") |>
+  print(n = Inf)
+```
+
+由以下的圖表可以看出：
+
+盧森堡Luxembourg、挪威Norway、羅馬尼亞Romania三國在本地和外國都沒有資料；保加利亞Bulgaria、匈牙利Hungary、墨西哥Mexico、斯洛伐克Slovak Republic、斯洛維尼亞Slovenia、哥斯大黎加Costa Rica、波蘭Poland有本地資料但沒有外國資料。
+
+```{r}
+#把缺失最多的國家放前面
+clean_data |>
+  filter(sex == "female", edu == "tertiary", is.na(unemp_rate)) |>
+  arrange(country, birth, age) |>
+  group_by(country, birth) |>
+  summarise(n_missing = n(),
+            missing_ages = paste(age, collapse = ", "),
+            .groups = "drop") |>
+  group_by(country) |>
+  mutate(missing_total = sum(n_missing)) |>
+  ungroup() |>
+  arrange(desc(missing_total), country, birth) |>
+  print(n = Inf)
+```
+
+在了解缺失值之後，回到正式資料
+
+```{r}
+
 ```
