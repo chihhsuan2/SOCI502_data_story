@@ -1,0 +1,14 @@
+---
+title: "EDA"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+clean_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
+```
