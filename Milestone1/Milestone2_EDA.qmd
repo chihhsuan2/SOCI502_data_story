@@ -12,3 +12,44 @@ library(dplyr)
 ```{r}
 clean_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
 ```
+
+```{r}
+glimpse(clean_data)
+```
+
+```{r}
+head(clean_data)      
+tail(clean_data)       
+```
+
+```{r}
+table(clean_data$sex)
+table(clean_data$age)
+table(clean_data$edu)
+table(clean_data$birth)
+table(clean_data$country)
+```
+
+```{r}
+sum(is.na(clean_data$unemp_rate))          # 缺值筆數
+mean(is.na(clean_data$unemp_rate)) * 100   # 缺值比例（%）
+```
+
+```{r}
+clean_data |>
+  group_by(country) |>
+  summarise(n = n(),
+            n_missing = sum(is.na(unemp_rate))) |>
+  filter(n_missing > 0) |>
+  arrange(desc(n_missing))
+```
+
+```{r}
+clean_data |>
+  filter(sex == "female") |>
+  group_by(country) |>
+  summarise(n = n(),
+            n_missing = sum(is.na(unemp_rate))) |>
+  filter(n_missing > 0) |>
+  arrange(desc(n_missing))
+```
