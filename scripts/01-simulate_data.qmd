@@ -1,0 +1,198 @@
+---
+title: "Milestone1"
+format: pdf
+author: "Chih-Hsuan Chang"
+abstract: "Using simulated data modelled on OECD unemployment statistics, this project plans to compare tertiary-educated foreign-born and native-born women across more and less developed regions."
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+references:
+- id: oecddata
+  type: dataset
+  title: "DSD_EAG_LSO_EA@DF_LSO_NEAC_UNEMP_MIGR"
+  author:
+  - literal: OECD
+  publisher: OECD Data Explorer
+  issued:
+    year: 2023
+  accessed:
+    year: 2026
+    month: 10
+    day: 16
+  URL: "https://data-explorer.oecd.org/vis?lc=en&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df[ag]=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BISR%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BOECD%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8...._Z%2BFB%2BNB._Z%2BY_LT16%2BY_GE16.....OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to[TIME_PERIOD]=true&lb=id&vw=ov"
+---
+
+# Unemployment Rate among Highly-Educated Immigrant Women by the Country of Destination
+
+## Introduction
+
+### Questions
+
+Immigrants with a university degree are often expected to secure stable positions in the labor market, yet a degree does not guarantee the same outcome across nations. Immigrants may face disadvantages depend on where they settle. For this research, I focus on highly educated female immigrants and ask: **Does the unemployment rate of tertiary-educated foreign-born women vary by the development level of the destination country? Specifically, is the unemployment rate lower if immigrant women migrate to more developed countries?**
+
+### Data
+
+For this project, I plan to use **2023 OECD data on unemployment rates** [@oecddata]. The data comes from the OECD Data Explorer (DSD_EAG_LSO_EA\@DF_LSO_NEAC_UNEMP_MIGR). Each row is a subgroup in one country, defined by variables such as sex, age group, education level and place of birth, together with its unemployment rate. The data contain other columns, which I do not list here.
+
+My outcome variable will be the unemployment rate. I plan to keep tertiary-educated women, group countries into regions, and then group the regions into “more developed” and “less developed” regions. I will exclude Israel because it is difficult to classify as either a more or less developed region, and I also exclude the OECD average because it is not a country.
+
+### Expected Results
+
+As more developed countries may have more established systems for recognizing foreign qualifications, I expect highly educated foreign-born women to experience lower unemployment in Northern America, Oceania, Western Europe and Northern Europe, which I group as “more developed” regions, than in Latin America, Southern Europe and Eastern Europe, which I group as “less developed” regions.
+
+I will treat the hypotheses as supported if the mean unemployment rate is lower in more developed than in less developed regions by about 1 percentage point or more. If the differences are small, I will conclude that there is no clear pattern.
+
+### Limitations
+
+Although the OECD data provides detailed data, it does not report immigrants’ country of origin. Where immigrants come from may affect whether their educational credentials are recognized in the country of destination, and therefore their unemployment rate. As a result, differences in unemployment rates may partly reflect differences in the origins of their immigrant populations, rather than characteristics of the destination countries themselves.
+
+```{r}
+library(tidyverse)
+library(tinytex)
+library(knitr) #for kable
+```
+
+------------------------------------------------------------------------
+
+## PART I: Simulating Data
+
+```{r}
+set.seed(916)
+
+#Simulate the structure of the real data, based on the data of OECD
+country_region <- tibble(
+  country = c("Canada", "United States",
+              "Mexico", "Costa Rica", "Colombia", "Chile",
+              "Australia", "New Zealand",
+              "Austria", "Belgium", "France", "Germany", "Luxembourg",
+              "Netherlands", "Switzerland",
+              "Estonia", "Ireland", "Latvia", "Lithuania", "Norway",
+              "Sweden", "United Kingdom",
+              "Greece", "Italy", "Portugal", "Slovenia", "Spain",
+              "Bulgaria", "Czechia", "Hungary", "Poland", "Romania",
+              "Slovak Republic"),
+  region  = c(rep("Northern America", 2),
+              rep("Latin America", 4),
+              rep("Oceania", 2),
+              rep("Western Europe", 7),
+              rep("Northern Europe", 7),
+              rep("Southern Europe", 5),
+              rep("Eastern Europe", 6))
+)
+
+head(country_region)
+```
+
+```{r}
+#add characteristics
+n_countries <- length(country_region$country)   
+
+simulated_ppl <- tibble(
+  country = rep(country_region$country, each = 18),
+  sex = rep(rep(c("Female", "Male"), each = 9), times = n_countries),
+  education = rep(rep(c("Below upper secondary",
+                        "Upper secondary / post-secondary non-tertiary",
+                        "Tertiary"), each = 3),
+                  times = 2 * n_countries),
+  birth_place = rep(c("Foreign-born", "Foreign-born", "Native-born"),   
+                    times = 6 * n_countries),
+)
+
+head(simulated_ppl)
+```
+
+```{r}
+#add region and development group
+simulated_groups <- 
+  simulated_ppl |>
+  left_join(country_region, by = "country") |>
+  mutate(
+    development_group = case_match(
+      region,
+      c("Northern America", "Oceania", "Western Europe", "Northern Europe") ~ "More developed",
+      c("Latin America", "Southern Europe", "Eastern Europe") ~ "Less developed",
+      .default = NA_character_
+    )
+  )
+
+head(simulated_groups)
+```
+
+```{r}
+#add unemployment rate
+simulated_rates <- 
+  simulated_groups |>
+  mutate(
+    unemployment_rate = sample(seq(1, 15, by = 0.1),
+                               size = n(),
+                               replace = TRUE)
+  )
+
+head(simulated_rates)
+simulated_rates |> 
+  summarise(min_rate = 
+            min(unemployment_rate),
+            max_rate = max(unemployment_rate))
+```
+
+```{r}
+simulated_data <- 
+  simulated_rates |>
+  select(region, development_group, sex, education, birth_place, unemployment_rate)
+```
+
+```{r}
+women_tertiary_simulated <- 
+  simulated_data |>
+  filter(sex == "Female",
+         education == "Tertiary") |>
+  drop_na(development_group, unemployment_rate)
+
+#only foreign-born women for the mean
+mean_by_group <- 
+  women_tertiary_simulated |>
+  filter(birth_place == "Foreign-born") |>
+  group_by(development_group) |>
+  summarise(mean_rate = mean(unemployment_rate))
+
+mean_by_group
+```
+
+### Table
+
+Table 1 shows 10 randomly selected rows of the simulated data, where each row is a subgroup in one country, defined by region and place of birth, together with its simulated unemployment rate.
+
+```{r}
+simulated_data |>
+  head(10) |>
+  select(region, development_group, birth_place, unemployment_rate) |>
+  kable(
+    col.names = c("Region", "Group", "Place of birth", "Unemployment rate (%)"),
+    caption = "Simulated data"
+  )
+```
+
+------------------------------------------------------------------------
+
+## PART II: Graph
+
+The following figures use the simulated data to show what the patterns would look like if the data followed each hypothesis.
+
+### Figure
+
+Figure 1 compare the simulated mean unemployment rate of tertiary-educated foreign-born women in more and less developed regions.
+
+```{r}
+#H1a
+mean_by_group |>
+  ggplot(aes(x = development_group, y = mean_rate)) +
+  geom_col() +
+  labs(x = NULL,
+       y = "Mean unemployment rate",
+       title = "Figure 1: Unemployment Rate of Tertiary-Educated\nForeign-Born Women by development group")+
+  theme(plot.title = element_text(size = 12))
+```
+
+## Reference
