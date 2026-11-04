@@ -1,6 +1,7 @@
 ---
 title: "EDA"
-format: html
+format: pdf
+author: "Chih-Hsuan Chang"
 editor: visual
 ---
 
