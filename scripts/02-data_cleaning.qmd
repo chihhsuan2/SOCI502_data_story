@@ -128,13 +128,5 @@ head(clean_data)
 ```
 
 ```{r}
-clean_data <-
-  clean_data |>
-  filter(age != "25-64")
-
-count(clean_data, age)
-```
-
-```{r}
 write_csv(clean_data, "/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
 ```
