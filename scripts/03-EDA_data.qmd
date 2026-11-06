@@ -6,6 +6,8 @@ editor: visual
 ---
 
 ```{r}
+install.packages("ggrepel")
+library(ggrepel)
 library(tidyverse)
 library(dplyr)
 ```
@@ -65,6 +67,8 @@ clean_data |>
 
 盧森堡Luxembourg、挪威Norway、羅馬尼亞Romania三國在本地和外國都沒有資料；保加利亞Bulgaria、匈牙利Hungary、墨西哥Mexico、斯洛伐克Slovak Republic、斯洛維尼亞Slovenia、哥斯大黎加Costa Rica、波蘭Poland有本地資料但沒有外國資料。
 
+As shown in the table below, 1) Luxembourg, Norway, and Romania have no data for either native-born or foreign-born women. 2) Bulgaria, Hungary, Mexico, the Slovak Republic, and Slovenia have complete data for native-born women but no data for foreign-born women. 3) Costa Rica and Poland likewise have no data for foreign-born women, and their native-born data are also missing for the 45–54 and 55–64 age groups.
+
 ```{r}
 #把缺失最多的國家放前面
 clean_data |>
@@ -81,8 +85,32 @@ clean_data |>
   print(n = Inf)
 ```
 
-在了解缺失值之後，回到正式資料
+### Graph1: Unemployment rates of native-born and foreign-born tertiary-educated women
+
+Countries commonly regarded as having large immigrant populations, such as Australia, the United States, Canada and New Zealand, lie close to the dashed line. In the 35–44 and 55–64 age groups, foreign-born women in Australia have lower unemployment rates than native-born women. By contrast, in Southern and Eastern European countries such as Estonia, Portugal, Spain and Greece, foreign-born women have substantially higher unemployment rates than native-born women.
 
 ```{r}
+#準備沒有資料的國家
+no_missing_base <-
+  clean_data |>
+  filter(!country %in% c("Luxembourg", "Norway", "Romania"))
+
+plot_NF_data <-
+  no_missing_base |>
+  filter(sex == "female", edu == "tertiary") |>
+  pivot_wider(names_from = birth, values_from = unemp_rate) |>
+  filter(!is.na(`native-born`), !is.na(`foreign-born`))
+
+ggplot(plot_NF_data, aes(x = `native-born`, y = `foreign-born`)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+  geom_point() +
+  facet_wrap(~ age) +
+  labs(
+    title = "Graph1: Unemployment rates of native-born and foreign-born\ntertiary-educated women",
+    x = "Native-born (%)",
+    y = "Foreign-born (%)"
+  ) +
+  geom_text_repel(aes(label = country), size = 2.5) +
+  theme_minimal()
 
 ```
