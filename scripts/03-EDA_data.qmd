@@ -53,24 +53,15 @@ clean_data |>
   arrange(desc(n_missing))
 ```
 
-```{r}
-#了解高等教育女性的缺失值發生在哪裡
-clean_data |>
-  filter(sex == "female", edu == "tertiary", is.na(unemp_rate)) |>
-  arrange(country, birth, age) |>
-  group_by(country, birth) |>
-  summarise(missing_ages = paste(age, collapse = ", "), .groups = "drop") |>
-  print(n = Inf)
-```
-
-由以下的圖表可以看出：
-
-盧森堡Luxembourg、挪威Norway、羅馬尼亞Romania三國在本地和外國都沒有資料；保加利亞Bulgaria、匈牙利Hungary、墨西哥Mexico、斯洛伐克Slovak Republic、斯洛維尼亞Slovenia、哥斯大黎加Costa Rica、波蘭Poland有本地資料但沒有外國資料。
+### Missing Values
 
 As shown in the table below, 1) Luxembourg, Norway, and Romania have no data for either native-born or foreign-born women. 2) Bulgaria, Hungary, Mexico, the Slovak Republic, and Slovenia have complete data for native-born women but no data for foreign-born women. 3) Costa Rica and Poland likewise have no data for foreign-born women, and their native-born data are also missing for the 45–54 and 55–64 age groups.
 
 ```{r}
+#了解高等教育女性的缺失值發生在哪裡
 #把缺失最多的國家放前面
+#盧森堡Luxembourg、挪威Norway、羅馬尼亞Romania三國在本地和外國都沒有資料；保加利亞Bulgaria、匈牙利Hungary、墨西哥Mexico、斯洛伐克Slovak Republic、斯洛維尼亞Slovenia、哥斯大黎加Costa Rica、波蘭Poland有本地資料但沒有外國資料。
+
 clean_data |>
   filter(sex == "female", edu == "tertiary", is.na(unemp_rate)) |>
   arrange(country, birth, age) |>
@@ -97,7 +88,7 @@ no_missing_base <-
 
 plot_NF_data <-
   no_missing_base |>
-  filter(sex == "female", edu == "tertiary") |>
+  filter(sex == "female", edu == "tertiary", age != "25-64") |>
   pivot_wider(names_from = birth, values_from = unemp_rate) |>
   filter(!is.na(`native-born`), !is.na(`foreign-born`))
 
@@ -112,5 +103,50 @@ ggplot(plot_NF_data, aes(x = `native-born`, y = `foreign-born`)) +
   ) +
   geom_text_repel(aes(label = country), size = 2.5) +
   theme_minimal()
+
+```
+
+```{r}
+plot_NFall_data <-
+  no_missing_base |>
+  filter(sex == "female", edu == "tertiary", age == "25-64") |>
+  pivot_wider(names_from = birth, values_from = unemp_rate) |>
+  filter(!is.na(`native-born`), !is.na(`foreign-born`))
+
+ggplot(plot_NFall_data, aes(x = `native-born`, y = `foreign-born`)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+  geom_point() +
+  facet_wrap(~ age) +
+  labs(
+    title = "Graph2: Unemployment rates of native-born and foreign-born\ntertiary-educated women",
+    x = "Native-born (%)",
+    y = "Foreign-born (%)"
+  ) +
+  geom_text_repel(aes(label = country), size = 2.5) +
+  theme_minimal()
+```
+
+```{r}
+plot_edu_data <-
+  no_missing_base |>
+  filter(sex == "female", age != "25-64") |>
+  pivot_wider(names_from = birth, values_from = unemp_rate) |>
+  filter(!is.na(`native-born`), !is.na(`foreign-born`))
+
+ggplot(plot_edu_data, aes(x = `native-born`, y = `foreign-born`, colour = age)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+  geom_point(alpha = 0.7) +
+  facet_wrap(~ edu) +
+  labs(
+    title = "Graph2: Unemployment rates of women by educational attainment",
+    x = "Native-born (%)",
+    y = "Foreign-born (%)",
+    colour = "Age"
+  ) +
+  geom_text_repel(aes(label = country), size = 2.5) +
+  theme_minimal()
+```
+
+```{r}
 
 ```
