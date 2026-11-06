@@ -124,6 +124,37 @@ clean_data <-
 ```
 
 ```{r}
+# 地區對照表
+region_names <- c(
+  "Canada" = "North America", "United States" = "North America",
+  "Chile" = "Latin America", "Colombia" = "Latin America",
+  "Costa Rica" = "Latin America", "Mexico" = "Latin America",
+  "Australia" = "Oceania", "New Zealand" = "Oceania",
+  "Austria" = "Western Europe", "Belgium" = "Western Europe",
+  "France" = "Western Europe", "Germany" = "Western Europe",
+  "Ireland" = "Western Europe", "Luxembourg" = "Western Europe",
+  "Netherlands" = "Western Europe", "Switzerland" = "Western Europe",
+  "United Kingdom" = "Western Europe",
+  "Norway" = "Northern Europe", "Sweden" = "Northern Europe",
+  "Greece" = "Southern Europe", "Italy" = "Southern Europe",
+  "Portugal" = "Southern Europe", "Spain" = "Southern Europe",
+  "Bulgaria" = "Eastern Europe", "Czechia" = "Eastern Europe",
+  "Estonia" = "Eastern Europe", "Hungary" = "Eastern Europe",
+  "Latvia" = "Eastern Europe", "Lithuania" = "Eastern Europe",
+  "Poland" = "Eastern Europe", "Romania" = "Eastern Europe",
+  "Slovak Republic" = "Eastern Europe", "Slovenia" = "Eastern Europe"
+)
+
+# 地區
+clean_data <-
+  clean_data |>
+  mutate(region = unname(region_names[country]),
+         region = factor(region, levels = c("North America", "Latin America", "Oceania",
+                                            "Western Europe", "Northern Europe",
+                                            "Southern Europe", "Eastern Europe")))
+```
+
+```{r}
 head(clean_data)
 ```
 
