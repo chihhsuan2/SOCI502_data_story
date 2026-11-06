@@ -56,6 +56,8 @@ clean_data |>
 
 As shown in the table below, 1) Luxembourg, Norway, and Romania have no data for either native-born or foreign-born women. 2) Bulgaria, Hungary, Mexico, the Slovak Republic, and Slovenia have complete data for native-born women but no data for foreign-born women. 3) Costa Rica and Poland likewise have no data for foreign-born women, and their native-born data are also missing for the 45–54 and 55–64 age groups.
 
+缺少解釋
+
 ```{r}
 #了解高等教育女性的缺失值發生在哪裡
 #把缺失最多的國家放前面
@@ -120,6 +122,12 @@ ggplot(plot_NF_data, aes(x = `native-born`, y = `foreign-born`, colour = region_
 
 ### Graph2: Unemployment rates of native-born and foreign-born tertiary-educated women aged 25-64
 
+Looking at tertiary-educated women aged 25–64 as a whole, there is no country in which foreign-born women have a lower unemployment rate than native-born women. **Every country lies above the diagonal line.** This suggests that tertiary education may not fully eliminate the disadvantage that immigrant women face in the labour market.
+
+Among developed countries of immigration, Australia, New Zealand and the United States show the smallest differences between the unemployment rates of foreign-born and native-born women. However, Canada and France, which are also commonly regarded as countries of immigration, lie much further from the diagonal line, indicating a larger gap between foreign-born and native-born women. **In Canada, for example, the unemployment rate of foreign-born women is roughly double that of native-born women. This may suggest that being a country of immigration does not by itself guarantee smaller gaps.**
+
+Southern European, Eastern European and Latin American countries (shown in red) generally have higher unemployment rates, reflecting weaker overall labour market conditions. Spain shows the largest gap, with the unemployment rate of foreign-born women about 7 percentage points higher than that of native-born women. By contrast, Colombia has the highest native-born unemployment rate in the sample, but the gap between the two groups is relatively small, at around 2 percentage points. The only exception among the red countries is Czechia, where both groups of women have low unemployment rates.
+
 ```{r}
 plot_NF_all_data <-
   no_missing_base |>
@@ -135,7 +143,6 @@ plot_NF_all_data <-
 ggplot(plot_NF_all_data, aes(x = `native-born`, y = `foreign-born`, colour = region_group)) +
   geom_abline(slope = 1, intercept = 0, colour = "grey") +
   geom_point() +
-  facet_wrap(~ age) +
   labs(
     title = "Graph2: Unemployment rates of native-born and foreign-born\ntertiary-educated women aged 25-64",
     x = "Native-born (%)",
@@ -147,6 +154,32 @@ ggplot(plot_NF_all_data, aes(x = `native-born`, y = `foreign-born`, colour = reg
     "North America, Oceania, Western & Northern Europe" = "blue",
     "Latin America, Southern & Eastern Europe" = "red"
   )) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+### Graph3: Gap in unemployment rates between foreign-born and native-born tertiary-educated women aged 25–64"
+
+```{r}
+gap_table <-
+  plot_NF_all_data |>
+  mutate(gap_pp = round(`foreign-born` - `native-born`, 1),
+         ratio  = round(`foreign-born` / `native-born`, 2))
+
+ggplot(gap_table, aes(x = gap_pp, y = reorder(country, gap_pp), fill = region_group)) +
+  geom_col() +
+  geom_text(aes(label = gap_pp), hjust = -0.2, size = 3) +
+  scale_fill_manual(values = c(
+    "North America, Oceania, Western & Northern Europe" = "blue",
+    "Latin America, Southern & Eastern Europe" = "red"
+  )) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(
+    title = "Graph3: Gap in unemployment rates between foreign-born and native-born\ntertiary-educated women aged 25–64",
+    x = "Foreign-born minus native-born (percentage points)",
+    y = NULL,
+    fill = NULL
+  ) +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
