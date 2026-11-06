@@ -6,7 +6,6 @@ editor: visual
 ---
 
 ```{r}
-install.packages("ggrepel")
 library(ggrepel)
 library(tidyverse)
 library(dplyr)
@@ -76,9 +75,11 @@ clean_data |>
   print(n = Inf)
 ```
 
-### Graph1: Unemployment rates of native-born and foreign-born tertiary-educated women
+### Graph1: Unemployment rates of native-born and foreign-born tertiary-educated women by age
 
 Countries commonly regarded as having large immigrant populations, such as Australia, the United States, Canada and New Zealand, lie close to the dashed line. In the 35–44 and 55–64 age groups, foreign-born women in Australia have lower unemployment rates than native-born women. By contrast, in Southern and Eastern European countries such as Estonia, Portugal, Spain and Greece, foreign-born women have substantially higher unemployment rates than native-born women.
+
+Interestingly, the data for Colombia show that among women aged 25–34, foreign-born women have a slightly lower unemployment rate than native-born women. In the 35–44 and 55–64 age groups, the unemployment rates of foreign-born and native-born women are relatively similar. However, in the 45–54 age group, foreign-born women have a much higher unemployment rate than Colombian native-born women.
 
 ```{r}
 #準備沒有資料的國家
@@ -90,61 +91,105 @@ plot_NF_data <-
   no_missing_base |>
   filter(sex == "female", edu == "tertiary", age != "25-64") |>
   pivot_wider(names_from = birth, values_from = unemp_rate) |>
-  filter(!is.na(`native-born`), !is.na(`foreign-born`))
+  filter(!is.na(`native-born`), !is.na(`foreign-born`)) |>
+  mutate(region_group = if_else(
+    region %in% c("North America", "Oceania", "Western Europe", "Northern Europe"),
+    "North America, Oceania, Western & Northern Europe",
+    "Latin America, Southern & Eastern Europe"
+  ))
 
-ggplot(plot_NF_data, aes(x = `native-born`, y = `foreign-born`)) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+ggplot(plot_NF_data, aes(x = `native-born`, y = `foreign-born`, colour = region_group)) +
+  geom_abline(slope = 1, intercept = 0, colour = "grey") +
   geom_point() +
   facet_wrap(~ age) +
   labs(
-    title = "Graph1: Unemployment rates of native-born and foreign-born\ntertiary-educated women",
+    title = "Graph1: Unemployment rates of native-born and foreign-born\ntertiary-educated women by age",
     x = "Native-born (%)",
-    y = "Foreign-born (%)"
+    y = "Foreign-born (%)",
+    colour = NULL
   ) +
-  geom_text_repel(aes(label = country), size = 2.5) +
-  theme_minimal()
+  geom_text_repel(aes(label = country), size = 2.5, show.legend = FALSE) +
+  scale_colour_manual(values = c(
+    "North America, Oceania, Western & Northern Europe" = "blue",
+    "Latin America, Southern & Eastern Europe" = "red"
+  )) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 
 ```
 
+### Graph2: Unemployment rates of native-born and foreign-born tertiary-educated women aged 25-64
+
 ```{r}
-plot_NFall_data <-
+plot_NF_all_data <-
   no_missing_base |>
   filter(sex == "female", edu == "tertiary", age == "25-64") |>
   pivot_wider(names_from = birth, values_from = unemp_rate) |>
-  filter(!is.na(`native-born`), !is.na(`foreign-born`))
+  filter(!is.na(`native-born`), !is.na(`foreign-born`)) |>
+  mutate(region_group = if_else(
+    region %in% c("North America", "Oceania", "Western Europe", "Northern Europe"),
+    "North America, Oceania, Western & Northern Europe",
+    "Latin America, Southern & Eastern Europe"
+  ))
 
-ggplot(plot_NFall_data, aes(x = `native-born`, y = `foreign-born`)) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+ggplot(plot_NF_all_data, aes(x = `native-born`, y = `foreign-born`, colour = region_group)) +
+  geom_abline(slope = 1, intercept = 0, colour = "grey") +
   geom_point() +
   facet_wrap(~ age) +
   labs(
-    title = "Graph2: Unemployment rates of native-born and foreign-born\ntertiary-educated women",
+    title = "Graph2: Unemployment rates of native-born and foreign-born\ntertiary-educated women aged 25-64",
     x = "Native-born (%)",
-    y = "Foreign-born (%)"
+    y = "Foreign-born (%)",
+    colour = NULL
   ) +
-  geom_text_repel(aes(label = country), size = 2.5) +
-  theme_minimal()
+  geom_text_repel(aes(label = country), size = 2.5, show.legend = FALSE) +
+  scale_colour_manual(values = c(
+    "North America, Oceania, Western & Northern Europe" = "blue",
+    "Latin America, Southern & Eastern Europe" = "red"
+  )) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
 
 ```{r}
+#不同教育程度的比較
 plot_edu_data <-
-  no_missing_base |>
-  filter(sex == "female", age != "25-64") |>
-  pivot_wider(names_from = birth, values_from = unemp_rate) |>
-  filter(!is.na(`native-born`), !is.na(`foreign-born`))
+  plot_edu_data |>
+  mutate(edu = factor(edu, levels = c("below upper secondary", "upper secondary", "tertiary")))
 
-ggplot(plot_edu_data, aes(x = `native-born`, y = `foreign-born`, colour = age)) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
-  geom_point(alpha = 0.7) +
+ggplot(plot_edu_data, aes(x = `native-born`, y = `foreign-born`, colour = region_group)) +
+  geom_abline(slope = 1, intercept = 0, colour = "grey") +
+  geom_point() +
   facet_wrap(~ edu) +
+  geom_text_repel(
+    aes(label = country),
+    size = 2.3,
+    max.overlaps = Inf,
+    box.padding = 0.4,
+    point.padding = 0.2,
+    min.segment.length = 0,
+    segment.colour = "grey",
+    segment.size = 0.3,
+    show.legend = FALSE
+  ) +
   labs(
-    title = "Graph2: Unemployment rates of women by educational attainment",
+    title = "Graph3: Unemployment rates of native-born and foreign-born women\naged 25–64 by educational attainment",
     x = "Native-born (%)",
     y = "Foreign-born (%)",
-    colour = "Age"
+    colour = NULL
   ) +
-  geom_text_repel(aes(label = country), size = 2.5) +
-  theme_minimal()
+  scale_colour_manual(values = c(
+    "North America, Oceania, Western & Northern Europe" = "blue",
+    "Latin America, Southern & Eastern Europe" = "red"
+  )) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
+```
+
+```{r}
+
 ```
 
 ```{r}
