@@ -130,7 +130,7 @@ region_names <- c(
   "Chile" = "Latin America", "Colombia" = "Latin America",
   "Costa Rica" = "Latin America", "Mexico" = "Latin America",
   "Australia" = "Oceania", "New Zealand" = "Oceania",
-  "Austria" = "Western Europe", "Belgium" = "Western Europe",
+  "Austria" = "Eastern Europe", "Belgium" = "Western Europe",
   "France" = "Western Europe", "Germany" = "Western Europe",
   "Ireland" = "Western Europe", "Luxembourg" = "Western Europe",
   "Netherlands" = "Western Europe", "Switzerland" = "Western Europe",

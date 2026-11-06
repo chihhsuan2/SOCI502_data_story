@@ -19,7 +19,7 @@ Mexico,male,35-44,tertiary,foreign-born,NA,Latin America
 Sweden,female,45-54,below upper secondary,native-born,NA,Northern Europe
 Germany,female,55-64,below upper secondary,native-born,2.421621561,Western Europe
 Hungary,female,45-54,upper secondary,foreign-born,6.76800108,Eastern Europe
-Austria,male,55-64,tertiary,foreign-born,5.008063316,Western Europe
+Austria,male,55-64,tertiary,foreign-born,5.008063316,Eastern Europe
 Sweden,female,25-34,below upper secondary,foreign-born,38.3873558,Northern Europe
 Mexico,male,25-34,upper secondary,native-born,3.387952805,Latin America
 Sweden,female,25-64,below upper secondary,foreign-born,31.43474579,Northern Europe
@@ -59,7 +59,7 @@ Sweden,female,35-44,upper secondary,native-born,NA,Northern Europe
 Canada,female,25-34,tertiary,native-born,3.439803362,North America
 Belgium,male,35-44,upper secondary,foreign-born,4.857379436,Western Europe
 Germany,female,25-34,below upper secondary,native-born,7.538961411,Western Europe
-Austria,male,55-64,tertiary,native-born,2.594028711,Western Europe
+Austria,male,55-64,tertiary,native-born,2.594028711,Eastern Europe
 Colombia,male,35-44,tertiary,native-born,6.053371429,Latin America
 Estonia,female,25-34,upper secondary,native-born,7.989221096,Eastern Europe
 Greece,female,55-64,upper secondary,native-born,10.25197506,Southern Europe
@@ -73,7 +73,7 @@ Greece,male,35-44,tertiary,foreign-born,11.34399796,Southern Europe
 France,female,45-54,upper secondary,foreign-born,10,Western Europe
 Greece,female,45-54,below upper secondary,foreign-born,25.27685356,Southern Europe
 Canada,male,25-34,tertiary,foreign-born,5.374592781,North America
-Austria,female,25-64,below upper secondary,native-born,5.75903368,Western Europe
+Austria,female,25-64,below upper secondary,native-born,5.75903368,Eastern Europe
 Belgium,male,35-44,tertiary,foreign-born,2.928925753,Western Europe
 Costa Rica,female,45-54,upper secondary,native-born,4.489477158,Latin America
 Costa Rica,female,25-64,below upper secondary,foreign-born,10.40663815,Latin America
@@ -82,7 +82,7 @@ Hungary,male,35-44,tertiary,foreign-born,NA,Eastern Europe
 United States,male,55-64,tertiary,foreign-born,2.535674095,North America
 Costa Rica,male,55-64,tertiary,native-born,NA,Latin America
 Netherlands,female,45-54,tertiary,native-born,1.65670836,Western Europe
-Austria,male,35-44,below upper secondary,foreign-born,11.33661175,Western Europe
+Austria,male,35-44,below upper secondary,foreign-born,11.33661175,Eastern Europe
 Canada,male,55-64,upper secondary,native-born,4.587155819,North America
 United States,female,25-64,below upper secondary,foreign-born,6.046367645,North America
 Luxembourg,male,45-54,below upper secondary,native-born,NA,Western Europe
@@ -128,7 +128,7 @@ Italy,male,25-34,below upper secondary,foreign-born,11.26521683,Southern Europe
 United States,male,55-64,below upper secondary,foreign-born,6.267288685,North America
 Colombia,male,25-64,tertiary,native-born,7.311023712,Latin America
 Lithuania,female,35-44,upper secondary,foreign-born,NA,Eastern Europe
-Austria,male,25-34,tertiary,foreign-born,6.49770689,Western Europe
+Austria,male,25-34,tertiary,foreign-born,6.49770689,Eastern Europe
 France,female,25-64,upper secondary,foreign-born,12.08200645,Western Europe
 Estonia,male,55-64,below upper secondary,native-born,NA,Eastern Europe
 Latvia,female,55-64,upper secondary,native-born,6.260118008,Eastern Europe
@@ -156,14 +156,14 @@ Latvia,male,45-54,below upper secondary,native-born,5.970487595,Eastern Europe
 Netherlands,female,35-44,tertiary,native-born,1.837888837,Western Europe
 Mexico,female,25-64,below upper secondary,native-born,1.879541397,Latin America
 Canada,male,55-64,below upper secondary,foreign-born,2.272727251,North America
-Austria,female,25-34,tertiary,native-born,2.384649754,Western Europe
+Austria,female,25-34,tertiary,native-born,2.384649754,Eastern Europe
 Portugal,female,45-54,tertiary,native-born,2.473855019,Southern Europe
 Norway,female,35-44,upper secondary,foreign-born,NA,Northern Europe
 Sweden,male,25-64,upper secondary,native-born,3.281481981,Northern Europe
 Switzerland,female,25-34,below upper secondary,foreign-born,15.60645103,Western Europe
 Slovenia,male,45-54,below upper secondary,native-born,8.333333015,Eastern Europe
 Germany,female,45-54,tertiary,foreign-born,3.662447214,Western Europe
-Austria,female,55-64,tertiary,foreign-born,7.723195553,Western Europe
+Austria,female,55-64,tertiary,foreign-born,7.723195553,Eastern Europe
 Spain,male,45-54,upper secondary,foreign-born,11.45969486,Southern Europe
 Norway,male,25-64,upper secondary,native-born,1.463414669,Northern Europe
 Italy,male,35-44,tertiary,foreign-born,6.651416302,Southern Europe
@@ -174,7 +174,7 @@ Greece,male,45-54,upper secondary,foreign-born,8.198703766,Southern Europe
 Switzerland,female,45-54,upper secondary,foreign-born,7.01729393,Western Europe
 France,male,45-54,below upper secondary,foreign-born,11.34020615,Western Europe
 Greece,female,25-64,tertiary,foreign-born,12.840868,Southern Europe
-Austria,female,25-34,upper secondary,native-born,4.044421196,Western Europe
+Austria,female,25-34,upper secondary,native-born,4.044421196,Eastern Europe
 Costa Rica,female,55-64,below upper secondary,native-born,5.467518806,Latin America
 Slovak Republic,female,25-34,tertiary,native-born,3.904632092,Eastern Europe
 Lithuania,female,55-64,tertiary,foreign-born,9.914079666,Eastern Europe
@@ -184,7 +184,7 @@ Czechia,male,25-34,upper secondary,foreign-born,NA,Eastern Europe
 Netherlands,male,25-64,below upper secondary,native-born,2.166905403,Western Europe
 Colombia,female,45-54,upper secondary,native-born,9.467251778,Latin America
 Italy,male,35-44,tertiary,native-born,1.738839507,Southern Europe
-Austria,female,25-64,below upper secondary,foreign-born,13.33366585,Western Europe
+Austria,female,25-64,below upper secondary,foreign-born,13.33366585,Eastern Europe
 Bulgaria,female,45-54,upper secondary,foreign-born,NA,Eastern Europe
 Lithuania,male,25-64,upper secondary,native-born,7.906057358,Eastern Europe
 Norway,male,35-44,upper secondary,native-born,NA,Northern Europe
@@ -216,7 +216,7 @@ Germany,female,35-44,below upper secondary,native-born,4.960365772,Western Europ
 Poland,male,25-34,tertiary,foreign-born,NA,Eastern Europe
 Estonia,male,25-64,below upper secondary,native-born,7.480921745,Eastern Europe
 Latvia,male,25-34,upper secondary,native-born,10.782794,Eastern Europe
-Austria,male,25-34,tertiary,native-born,2.823804617,Western Europe
+Austria,male,25-34,tertiary,native-born,2.823804617,Eastern Europe
 Italy,female,35-44,tertiary,foreign-born,7.941239357,Southern Europe
 Netherlands,male,25-64,tertiary,foreign-born,4.150126457,Western Europe
 New Zealand,female,25-34,upper secondary,native-born,6.047820091,Oceania
@@ -224,7 +224,7 @@ Greece,male,45-54,below upper secondary,foreign-born,4.325135708,Southern Europe
 Belgium,male,35-44,below upper secondary,native-born,11.71126938,Western Europe
 Belgium,female,45-54,below upper secondary,native-born,5.370883942,Western Europe
 Latvia,male,25-34,below upper secondary,native-born,15.8557682,Eastern Europe
-Austria,female,55-64,below upper secondary,foreign-born,9.5534935,Western Europe
+Austria,female,55-64,below upper secondary,foreign-born,9.5534935,Eastern Europe
 Australia,male,25-64,tertiary,native-born,1.601014018,Oceania
 Sweden,female,25-34,tertiary,foreign-born,10.42777824,Northern Europe
 Czechia,female,25-64,tertiary,foreign-born,3.582467794,Eastern Europe
@@ -251,7 +251,7 @@ Bulgaria,female,25-64,below upper secondary,native-born,15.70462513,Eastern Euro
 Australia,female,25-64,upper secondary,native-born,3.180803299,Oceania
 Switzerland,male,45-54,upper secondary,native-born,2.675478935,Western Europe
 Costa Rica,male,45-54,below upper secondary,native-born,2.948825598,Latin America
-Austria,female,35-44,upper secondary,native-born,2.925422668,Western Europe
+Austria,female,35-44,upper secondary,native-born,2.925422668,Eastern Europe
 United Kingdom,male,45-54,tertiary,native-born,2.058128834,Western Europe
 Czechia,female,55-64,upper secondary,native-born,1.690471172,Eastern Europe
 Greece,female,45-54,upper secondary,native-born,12.86326981,Southern Europe
@@ -271,7 +271,7 @@ Canada,male,25-64,upper secondary,foreign-born,6.060606003,North America
 United Kingdom,female,25-64,upper secondary,native-born,2.762825251,Western Europe
 France,female,25-64,upper secondary,native-born,6.648630142,Western Europe
 Greece,female,35-44,upper secondary,foreign-born,27.31560326,Southern Europe
-Austria,male,35-44,upper secondary,native-born,2.408493519,Western Europe
+Austria,male,35-44,upper secondary,native-born,2.408493519,Eastern Europe
 Italy,male,25-64,upper secondary,native-born,4.611706257,Southern Europe
 Colombia,male,55-64,tertiary,native-born,6.804433823,Latin America
 Italy,male,25-64,tertiary,native-born,2.713860512,Southern Europe
@@ -291,7 +291,7 @@ Czechia,male,45-54,tertiary,foreign-born,NA,Eastern Europe
 Sweden,male,45-54,tertiary,native-born,1.591960549,Northern Europe
 New Zealand,female,35-44,below upper secondary,foreign-born,NA,Oceania
 Australia,male,35-44,tertiary,foreign-born,0.314490557,Oceania
-Austria,female,55-64,tertiary,native-born,1.471396804,Western Europe
+Austria,female,55-64,tertiary,native-born,1.471396804,Eastern Europe
 Germany,male,35-44,below upper secondary,foreign-born,6.605501652,Western Europe
 Lithuania,female,25-34,tertiary,foreign-born,NA,Eastern Europe
 Costa Rica,male,55-64,tertiary,foreign-born,NA,Latin America
@@ -303,7 +303,7 @@ Lithuania,male,55-64,tertiary,foreign-born,NA,Eastern Europe
 United Kingdom,male,35-44,below upper secondary,foreign-born,NA,Western Europe
 Switzerland,female,25-64,upper secondary,foreign-born,6.25848484,Western Europe
 United States,male,45-54,upper secondary,native-born,3.619127989,North America
-Austria,female,35-44,upper secondary,foreign-born,6.762726307,Western Europe
+Austria,female,35-44,upper secondary,foreign-born,6.762726307,Eastern Europe
 Greece,female,35-44,tertiary,foreign-born,12.46953869,Southern Europe
 Luxembourg,female,25-34,upper secondary,foreign-born,NA,Western Europe
 Hungary,male,45-54,below upper secondary,foreign-born,4.298530102,Eastern Europe
@@ -323,7 +323,7 @@ Bulgaria,female,55-64,below upper secondary,foreign-born,NA,Eastern Europe
 France,male,25-64,tertiary,foreign-born,7.23090601,Western Europe
 Hungary,male,45-54,tertiary,native-born,1.263919711,Eastern Europe
 Slovak Republic,female,55-64,upper secondary,native-born,4.20383215,Eastern Europe
-Austria,male,25-64,below upper secondary,foreign-born,13.47842026,Western Europe
+Austria,male,25-64,below upper secondary,foreign-born,13.47842026,Eastern Europe
 Canada,male,25-34,below upper secondary,native-born,7.766990185,North America
 Netherlands,female,25-64,upper secondary,foreign-born,4.998120785,Western Europe
 Canada,male,25-34,upper secondary,foreign-born,9.146341324,North America
@@ -348,8 +348,8 @@ Colombia,male,55-64,tertiary,foreign-born,16.35113335,Latin America
 Sweden,male,45-54,below upper secondary,foreign-born,27.77319527,Northern Europe
 Greece,female,25-64,below upper secondary,native-born,16.44157028,Southern Europe
 United Kingdom,female,35-44,upper secondary,native-born,2.630380869,Western Europe
-Austria,male,45-54,below upper secondary,foreign-born,15.60937595,Western Europe
-Austria,male,55-64,below upper secondary,native-born,10.83815956,Western Europe
+Austria,male,45-54,below upper secondary,foreign-born,15.60937595,Eastern Europe
+Austria,male,55-64,below upper secondary,native-born,10.83815956,Eastern Europe
 New Zealand,female,45-54,below upper secondary,foreign-born,NA,Oceania
 Canada,female,25-64,below upper secondary,native-born,9.947644234,North America
 Switzerland,female,25-34,upper secondary,native-born,3.13128829,Western Europe
@@ -441,11 +441,11 @@ Lithuania,female,55-64,below upper secondary,native-born,22.12423134,Eastern Eur
 Canada,male,35-44,below upper secondary,foreign-born,2.8571429250000002,North America
 Australia,female,35-44,upper secondary,foreign-born,2.641562939,Oceania
 Australia,male,45-54,below upper secondary,foreign-born,NA,Oceania
-Austria,male,45-54,tertiary,foreign-born,3.769159079,Western Europe
+Austria,male,45-54,tertiary,foreign-born,3.769159079,Eastern Europe
 Italy,female,45-54,tertiary,foreign-born,8.275156021,Southern Europe
 Costa Rica,female,55-64,tertiary,native-born,NA,Latin America
 Spain,male,25-64,below upper secondary,native-born,12.76642609,Southern Europe
-Austria,female,55-64,upper secondary,native-born,1.625347733,Western Europe
+Austria,female,55-64,upper secondary,native-born,1.625347733,Eastern Europe
 Netherlands,female,55-64,upper secondary,foreign-born,5.258833408,Western Europe
 Czechia,male,55-64,below upper secondary,foreign-born,6.716514587,Eastern Europe
 Luxembourg,male,45-54,upper secondary,foreign-born,NA,Western Europe
@@ -540,13 +540,13 @@ Romania,male,45-54,upper secondary,native-born,3.601313829,Eastern Europe
 Costa Rica,female,45-54,upper secondary,foreign-born,NA,Latin America
 Czechia,male,25-34,below upper secondary,foreign-born,NA,Eastern Europe
 France,female,45-54,upper secondary,native-born,5.203326702,Western Europe
-Austria,female,25-34,below upper secondary,native-born,12.27735996,Western Europe
+Austria,female,25-34,below upper secondary,native-born,12.27735996,Eastern Europe
 Hungary,female,25-34,upper secondary,native-born,4.554652691,Eastern Europe
 Greece,male,25-64,tertiary,foreign-born,6.640121937,Southern Europe
 Portugal,female,25-64,below upper secondary,native-born,7.669237137,Southern Europe
 United Kingdom,male,25-64,below upper secondary,foreign-born,4.060916424,Western Europe
 Lithuania,male,55-64,below upper secondary,foreign-born,NA,Eastern Europe
-Austria,female,25-64,tertiary,foreign-born,8.199897766,Western Europe
+Austria,female,25-64,tertiary,foreign-born,8.199897766,Eastern Europe
 Latvia,male,25-64,tertiary,foreign-born,5.157721519,Eastern Europe
 Switzerland,male,25-64,tertiary,foreign-born,4.137572289,Western Europe
 Italy,male,55-64,upper secondary,native-born,3.023255825,Southern Europe
@@ -554,7 +554,7 @@ Czechia,female,25-64,upper secondary,foreign-born,5.333313465,Eastern Europe
 Australia,male,25-64,tertiary,foreign-born,1.50500381,Oceania
 Norway,male,35-44,below upper secondary,foreign-born,NA,Northern Europe
 Costa Rica,female,55-64,upper secondary,foreign-born,NA,Latin America
-Austria,male,25-64,tertiary,foreign-born,5.217747688,Western Europe
+Austria,male,25-64,tertiary,foreign-born,5.217747688,Eastern Europe
 France,male,25-64,upper secondary,native-born,5.755068779,Western Europe
 Poland,female,25-34,below upper secondary,foreign-born,NA,Eastern Europe
 Spain,female,45-54,tertiary,foreign-born,14.57990837,Southern Europe
@@ -586,7 +586,7 @@ Latvia,male,55-64,below upper secondary,foreign-born,NA,Eastern Europe
 Mexico,male,55-64,upper secondary,native-born,2.119967461,Latin America
 Netherlands,female,25-34,upper secondary,native-born,2.31084609,Western Europe
 Italy,female,45-54,tertiary,native-born,1.861408114,Southern Europe
-Austria,male,25-64,upper secondary,native-born,3.515390158,Western Europe
+Austria,male,25-64,upper secondary,native-born,3.515390158,Eastern Europe
 Romania,female,25-64,tertiary,foreign-born,NA,Eastern Europe
 Latvia,male,35-44,upper secondary,native-born,7.230659008,Eastern Europe
 France,male,55-64,upper secondary,foreign-born,10.95406342,Western Europe
@@ -609,7 +609,7 @@ United States,male,45-54,below upper secondary,native-born,6.812481403,North Ame
 Slovak Republic,male,25-64,tertiary,native-born,1.501158357,Eastern Europe
 Mexico,male,25-64,tertiary,native-born,3.168104649,Latin America
 Sweden,female,55-64,below upper secondary,native-born,NA,Northern Europe
-Austria,female,45-54,tertiary,foreign-born,7.990292549,Western Europe
+Austria,female,45-54,tertiary,foreign-born,7.990292549,Eastern Europe
 Bulgaria,male,25-64,tertiary,native-born,1.747125506,Eastern Europe
 United Kingdom,male,25-34,upper secondary,native-born,3.520662069,Western Europe
 Romania,male,35-44,below upper secondary,foreign-born,NA,Eastern Europe
@@ -689,7 +689,7 @@ Colombia,female,55-64,tertiary,foreign-born,7.649938583,Latin America
 Bulgaria,female,35-44,tertiary,foreign-born,NA,Eastern Europe
 Slovak Republic,female,25-34,below upper secondary,foreign-born,NA,Eastern Europe
 Colombia,male,35-44,below upper secondary,native-born,4.864768982,Latin America
-Austria,male,25-34,upper secondary,foreign-born,10.62042809,Western Europe
+Austria,male,25-34,upper secondary,foreign-born,10.62042809,Eastern Europe
 Portugal,female,55-64,tertiary,native-born,NA,Southern Europe
 Germany,female,35-44,upper secondary,native-born,1.846061945,Western Europe
 Sweden,male,55-64,tertiary,foreign-born,10.15329933,Northern Europe
@@ -747,7 +747,7 @@ Slovak Republic,male,55-64,tertiary,native-born,NA,Eastern Europe
 Luxembourg,male,25-34,tertiary,native-born,NA,Western Europe
 Switzerland,male,45-54,tertiary,native-born,1.393157601,Western Europe
 Estonia,female,25-34,upper secondary,foreign-born,NA,Eastern Europe
-Austria,female,35-44,below upper secondary,native-born,7.832615852,Western Europe
+Austria,female,35-44,below upper secondary,native-born,7.832615852,Eastern Europe
 New Zealand,male,45-54,below upper secondary,foreign-born,NA,Oceania
 Switzerland,female,55-64,upper secondary,native-born,2.502933025,Western Europe
 Mexico,female,35-44,tertiary,foreign-born,NA,Latin America
@@ -785,12 +785,12 @@ Lithuania,male,35-44,tertiary,foreign-born,NA,Eastern Europe
 Mexico,male,55-64,upper secondary,foreign-born,NA,Latin America
 Belgium,male,25-64,below upper secondary,foreign-born,14.67670059,Western Europe
 Slovak Republic,male,55-64,tertiary,foreign-born,NA,Eastern Europe
-Austria,male,25-34,below upper secondary,native-born,20.49119759,Western Europe
+Austria,male,25-34,below upper secondary,native-born,20.49119759,Eastern Europe
 Slovak Republic,male,35-44,below upper secondary,native-born,30.00935745,Eastern Europe
 Netherlands,male,35-44,tertiary,foreign-born,4.111111164,Western Europe
 Luxembourg,female,35-44,upper secondary,foreign-born,NA,Western Europe
 Australia,male,55-64,below upper secondary,foreign-born,NA,Oceania
-Austria,male,45-54,upper secondary,native-born,3.055268526,Western Europe
+Austria,male,45-54,upper secondary,native-born,3.055268526,Eastern Europe
 Lithuania,female,55-64,below upper secondary,foreign-born,NA,Eastern Europe
 Sweden,male,55-64,below upper secondary,foreign-born,20.63086128,Northern Europe
 Sweden,female,25-64,tertiary,native-born,2.233755827,Northern Europe
@@ -811,7 +811,7 @@ Canada,male,25-34,tertiary,native-born,4.357542038,North America
 Germany,male,45-54,below upper secondary,native-born,4.392997742,Western Europe
 Estonia,female,45-54,below upper secondary,foreign-born,NA,Eastern Europe
 Estonia,male,35-44,upper secondary,native-born,5.336473942,Eastern Europe
-Austria,male,35-44,upper secondary,foreign-born,7.261334419,Western Europe
+Austria,male,35-44,upper secondary,foreign-born,7.261334419,Eastern Europe
 Sweden,male,45-54,upper secondary,native-born,2.039372444,Northern Europe
 Poland,male,25-64,below upper secondary,foreign-born,NA,Eastern Europe
 Hungary,male,35-44,upper secondary,foreign-born,NA,Eastern Europe
@@ -991,7 +991,7 @@ Belgium,female,25-64,upper secondary,native-born,4.282342911,Western Europe
 Estonia,female,45-54,tertiary,native-born,2.302710772,Eastern Europe
 Italy,female,35-44,upper secondary,foreign-born,12.45862675,Southern Europe
 Costa Rica,male,25-34,below upper secondary,native-born,10.78607368,Latin America
-Austria,male,35-44,tertiary,native-born,1.733265758,Western Europe
+Austria,male,35-44,tertiary,native-born,1.733265758,Eastern Europe
 Romania,male,25-64,upper secondary,foreign-born,NA,Eastern Europe
 Romania,female,55-64,below upper secondary,foreign-born,NA,Eastern Europe
 Mexico,female,35-44,tertiary,native-born,2.028434277,Latin America
@@ -1005,7 +1005,7 @@ New Zealand,female,45-54,upper secondary,foreign-born,NA,Oceania
 Poland,male,25-64,below upper secondary,native-born,5.794155121,Eastern Europe
 Belgium,female,45-54,tertiary,native-born,1.396391392,Western Europe
 Switzerland,male,55-64,upper secondary,foreign-born,4.532141685,Western Europe
-Austria,male,55-64,upper secondary,native-born,3.657357216,Western Europe
+Austria,male,55-64,upper secondary,native-born,3.657357216,Eastern Europe
 Portugal,female,35-44,upper secondary,foreign-born,9.938297272,Southern Europe
 Greece,male,55-64,below upper secondary,foreign-born,15.49445438,Southern Europe
 United Kingdom,female,55-64,upper secondary,foreign-born,NA,Western Europe
@@ -1060,12 +1060,12 @@ Poland,male,25-34,upper secondary,foreign-born,NA,Eastern Europe
 Netherlands,male,25-64,upper secondary,native-born,1.951363683,Western Europe
 Italy,male,55-64,below upper secondary,native-born,6.766289234,Southern Europe
 Italy,male,45-54,upper secondary,foreign-born,5.352286339,Southern Europe
-Austria,female,25-64,tertiary,native-born,1.731740475,Western Europe
+Austria,female,25-64,tertiary,native-born,1.731740475,Eastern Europe
 Sweden,male,25-64,below upper secondary,foreign-born,21.15180779,Northern Europe
 United States,female,45-54,tertiary,foreign-born,3.000016451,North America
 Bulgaria,male,25-34,tertiary,foreign-born,NA,Eastern Europe
 Netherlands,male,25-34,upper secondary,foreign-born,5.296610355,Western Europe
-Austria,female,35-44,tertiary,foreign-born,7.6387052539999996,Western Europe
+Austria,female,35-44,tertiary,foreign-born,7.6387052539999996,Eastern Europe
 Estonia,male,25-64,tertiary,native-born,2.923588037,Eastern Europe
 Bulgaria,female,45-54,below upper secondary,foreign-born,NA,Eastern Europe
 Portugal,female,25-64,upper secondary,foreign-born,9.264702797,Southern Europe
@@ -1111,7 +1111,7 @@ Slovenia,female,35-44,tertiary,foreign-born,NA,Eastern Europe
 Costa Rica,male,35-44,below upper secondary,foreign-born,4.40363121,Latin America
 Slovenia,female,45-54,below upper secondary,native-born,NA,Eastern Europe
 Greece,male,35-44,upper secondary,foreign-born,7.532280922,Southern Europe
-Austria,male,25-34,below upper secondary,foreign-born,12.73549843,Western Europe
+Austria,male,25-34,below upper secondary,foreign-born,12.73549843,Eastern Europe
 Poland,male,35-44,upper secondary,native-born,2.774180412,Eastern Europe
 United States,female,25-64,below upper secondary,native-born,8.838397026,North America
 Switzerland,female,35-44,tertiary,foreign-born,6.653776646,Western Europe
@@ -1156,7 +1156,7 @@ Mexico,male,45-54,tertiary,native-born,2.383968115,Latin America
 Hungary,female,25-64,upper secondary,native-born,3.609365463,Eastern Europe
 Italy,female,55-64,tertiary,foreign-born,12.32910824,Southern Europe
 New Zealand,male,25-64,below upper secondary,native-born,4.279420853,Oceania
-Austria,female,35-44,below upper secondary,foreign-born,18.51819992,Western Europe
+Austria,female,35-44,below upper secondary,foreign-born,18.51819992,Eastern Europe
 Slovenia,female,45-54,upper secondary,foreign-born,NA,Eastern Europe
 Estonia,female,25-34,below upper secondary,foreign-born,NA,Eastern Europe
 Spain,female,55-64,tertiary,foreign-born,16.86163712,Southern Europe
@@ -1177,7 +1177,7 @@ Colombia,female,45-54,tertiary,native-born,8.098513603,Latin America
 Colombia,female,35-44,upper secondary,native-born,11.75448895,Latin America
 Canada,female,35-44,tertiary,native-born,2.24820137,North America
 Latvia,female,35-44,below upper secondary,native-born,6.165464878,Eastern Europe
-Austria,female,45-54,upper secondary,foreign-born,6.589683533,Western Europe
+Austria,female,45-54,upper secondary,foreign-born,6.589683533,Eastern Europe
 Australia,female,25-34,below upper secondary,foreign-born,NA,Oceania
 Hungary,male,55-64,tertiary,foreign-born,7.114290237,Eastern Europe
 Spain,female,25-64,tertiary,native-born,6.972405434,Southern Europe
@@ -1192,7 +1192,7 @@ Costa Rica,female,45-54,tertiary,native-born,NA,Latin America
 Hungary,female,55-64,upper secondary,native-born,3.076187134,Eastern Europe
 Italy,male,35-44,upper secondary,native-born,4.424967766,Southern Europe
 Italy,male,25-34,tertiary,foreign-born,13.2232523,Southern Europe
-Austria,female,55-64,below upper secondary,native-born,3.090751886,Western Europe
+Austria,female,55-64,below upper secondary,native-born,3.090751886,Eastern Europe
 Canada,female,35-44,below upper secondary,foreign-born,10.52631569,North America
 Czechia,male,25-34,tertiary,native-born,1.219168067,Eastern Europe
 Slovak Republic,female,45-54,below upper secondary,foreign-born,NA,Eastern Europe
@@ -1240,7 +1240,7 @@ Belgium,female,55-64,upper secondary,foreign-born,8.322194099,Western Europe
 New Zealand,male,55-64,below upper secondary,foreign-born,NA,Oceania
 Colombia,female,35-44,tertiary,native-born,9.463522911,Latin America
 Canada,female,45-54,tertiary,foreign-born,4.545454502,North America
-Austria,female,25-34,tertiary,foreign-born,9.158024788,Western Europe
+Austria,female,25-34,tertiary,foreign-born,9.158024788,Eastern Europe
 United Kingdom,male,45-54,below upper secondary,foreign-born,NA,Western Europe
 Belgium,female,55-64,below upper secondary,native-born,3.07204771,Western Europe
 Colombia,male,25-34,below upper secondary,native-born,7.561207771,Latin America
@@ -1262,7 +1262,7 @@ United States,female,25-64,tertiary,native-born,2.049789667,North America
 Norway,male,35-44,tertiary,native-born,NA,Northern Europe
 France,female,35-44,below upper secondary,native-born,12.71282673,Western Europe
 Hungary,male,45-54,upper secondary,foreign-born,1.792118907,Eastern Europe
-Austria,male,55-64,upper secondary,foreign-born,9.544685364,Western Europe
+Austria,male,55-64,upper secondary,foreign-born,9.544685364,Eastern Europe
 New Zealand,male,25-34,below upper secondary,foreign-born,NA,Oceania
 New Zealand,male,35-44,below upper secondary,native-born,2.816901445,Oceania
 Bulgaria,female,25-34,below upper secondary,foreign-born,NA,Eastern Europe
@@ -1286,7 +1286,7 @@ Latvia,female,25-34,tertiary,foreign-born,13.73055744,Eastern Europe
 Norway,female,55-64,tertiary,native-born,NA,Northern Europe
 Switzerland,male,35-44,tertiary,foreign-born,4.17686367,Western Europe
 Switzerland,male,55-64,tertiary,native-born,1.516890407,Western Europe
-Austria,female,35-44,tertiary,native-born,1.276177883,Western Europe
+Austria,female,35-44,tertiary,native-born,1.276177883,Eastern Europe
 Spain,male,45-54,tertiary,foreign-born,7.923901081,Southern Europe
 Latvia,female,25-64,upper secondary,foreign-born,9.017864227,Eastern Europe
 Mexico,female,25-34,below upper secondary,native-born,3.264336824,Latin America
@@ -1298,7 +1298,7 @@ Spain,female,35-44,upper secondary,native-born,11.37270355,Southern Europe
 Lithuania,female,35-44,tertiary,foreign-born,NA,Eastern Europe
 Greece,male,55-64,tertiary,native-born,1.95562458,Southern Europe
 United States,female,55-64,below upper secondary,native-born,6.475697994,North America
-Austria,male,55-64,below upper secondary,foreign-born,14.25572395,Western Europe
+Austria,male,55-64,below upper secondary,foreign-born,14.25572395,Eastern Europe
 Italy,female,55-64,upper secondary,native-born,3.033243656,Southern Europe
 Hungary,female,55-64,tertiary,native-born,0.91930145,Eastern Europe
 Canada,female,45-54,upper secondary,foreign-born,5.185184956,North America
@@ -1350,7 +1350,7 @@ Spain,male,55-64,tertiary,native-born,4.694590569,Southern Europe
 Estonia,female,25-64,below upper secondary,foreign-born,NA,Eastern Europe
 France,female,35-44,tertiary,native-born,3.627865553,Western Europe
 Mexico,male,45-54,below upper secondary,foreign-born,NA,Latin America
-Austria,male,45-54,upper secondary,foreign-born,8.609917641,Western Europe
+Austria,male,45-54,upper secondary,foreign-born,8.609917641,Eastern Europe
 Slovak Republic,male,55-64,below upper secondary,foreign-born,NA,Eastern Europe
 Romania,female,55-64,tertiary,native-born,NA,Eastern Europe
 Bulgaria,female,55-64,upper secondary,foreign-born,NA,Eastern Europe
@@ -1383,7 +1383,7 @@ Canada,male,25-64,tertiary,native-born,3.483217239,North America
 Luxembourg,female,35-44,tertiary,foreign-born,NA,Western Europe
 Spain,female,55-64,upper secondary,native-born,10.82016468,Southern Europe
 Lithuania,female,55-64,upper secondary,foreign-born,7.710833073,Eastern Europe
-Austria,female,25-34,below upper secondary,foreign-born,19.94467163,Western Europe
+Austria,female,25-34,below upper secondary,foreign-born,19.94467163,Eastern Europe
 Australia,male,35-44,below upper secondary,foreign-born,NA,Oceania
 Colombia,male,55-64,below upper secondary,foreign-born,10.87415218,Latin America
 Portugal,female,25-34,tertiary,native-born,3.775861025,Southern Europe
@@ -1414,7 +1414,7 @@ Latvia,male,25-34,tertiary,native-born,3.168721676,Eastern Europe
 Costa Rica,female,35-44,tertiary,foreign-born,NA,Latin America
 Sweden,male,25-34,below upper secondary,foreign-born,19.12672043,Northern Europe
 New Zealand,female,55-64,tertiary,foreign-born,NA,Oceania
-Austria,female,45-54,below upper secondary,native-born,4.651346684,Western Europe
+Austria,female,45-54,below upper secondary,native-born,4.651346684,Eastern Europe
 Estonia,male,25-64,upper secondary,foreign-born,7.081449509,Eastern Europe
 Romania,female,25-64,below upper secondary,foreign-born,NA,Eastern Europe
 Colombia,female,35-44,tertiary,foreign-born,10.49048138,Latin America
@@ -1510,7 +1510,7 @@ Italy,female,25-64,below upper secondary,foreign-born,14.63882446,Southern Europ
 Poland,male,25-64,tertiary,foreign-born,NA,Eastern Europe
 Greece,female,25-34,below upper secondary,foreign-born,29.51827812,Southern Europe
 Czechia,male,55-64,tertiary,foreign-born,NA,Eastern Europe
-Austria,male,35-44,below upper secondary,native-born,10.59277439,Western Europe
+Austria,male,35-44,below upper secondary,native-born,10.59277439,Eastern Europe
 Luxembourg,female,55-64,upper secondary,foreign-born,NA,Western Europe
 Hungary,male,25-64,tertiary,foreign-born,2.285262346,Eastern Europe
 Germany,male,45-54,upper secondary,foreign-born,3.490430593,Western Europe
@@ -1539,7 +1539,7 @@ Romania,male,55-64,tertiary,native-born,NA,Eastern Europe
 United Kingdom,male,25-64,tertiary,foreign-born,3.763335705,Western Europe
 Sweden,male,45-54,tertiary,foreign-born,9.348612785,Northern Europe
 Netherlands,male,25-34,below upper secondary,foreign-born,5.494505405,Western Europe
-Austria,male,25-34,upper secondary,native-born,4.858183861,Western Europe
+Austria,male,25-34,upper secondary,native-born,4.858183861,Eastern Europe
 United States,male,35-44,below upper secondary,native-born,7.226172924,North America
 Spain,male,25-34,upper secondary,foreign-born,13.97197247,Southern Europe
 Slovak Republic,male,25-64,upper secondary,native-born,4.409109116,Eastern Europe
@@ -1556,7 +1556,7 @@ Australia,male,35-44,upper secondary,foreign-born,1.128169775,Oceania
 Costa Rica,female,35-44,upper secondary,foreign-born,NA,Latin America
 New Zealand,female,35-44,tertiary,native-born,NA,Oceania
 Australia,male,25-34,below upper secondary,foreign-born,NA,Oceania
-Austria,male,25-64,upper secondary,foreign-born,8.87561512,Western Europe
+Austria,male,25-64,upper secondary,foreign-born,8.87561512,Eastern Europe
 United Kingdom,female,35-44,tertiary,foreign-born,3.4209795,Western Europe
 Costa Rica,male,25-64,below upper secondary,native-born,5.940841198,Latin America
 Mexico,male,25-34,below upper secondary,foreign-born,6.697896004,Latin America
@@ -1565,7 +1565,7 @@ Italy,female,45-54,below upper secondary,foreign-born,14.83190441,Southern Europ
 Netherlands,male,35-44,below upper secondary,foreign-born,4.92610836,Western Europe
 Luxembourg,male,35-44,upper secondary,native-born,NA,Western Europe
 Norway,female,25-64,upper secondary,native-born,NA,Northern Europe
-Austria,female,45-54,below upper secondary,foreign-born,8.278303146,Western Europe
+Austria,female,45-54,below upper secondary,foreign-born,8.278303146,Eastern Europe
 Spain,female,35-44,tertiary,foreign-born,12.98463345,Southern Europe
 Colombia,male,25-64,upper secondary,native-born,7.782522202,Latin America
 Estonia,male,25-34,below upper secondary,foreign-born,NA,Eastern Europe
@@ -1589,7 +1589,7 @@ Netherlands,male,45-54,upper secondary,foreign-born,NA,Western Europe
 Latvia,female,25-34,below upper secondary,native-born,14.18254757,Eastern Europe
 France,female,55-64,below upper secondary,native-born,5.803003311,Western Europe
 United Kingdom,female,25-64,tertiary,native-born,1.633578658,Western Europe
-Austria,female,25-34,upper secondary,foreign-born,6.911662102,Western Europe
+Austria,female,25-34,upper secondary,foreign-born,6.911662102,Eastern Europe
 Lithuania,male,25-34,upper secondary,foreign-born,NA,Eastern Europe
 Romania,female,25-34,below upper secondary,foreign-born,NA,Eastern Europe
 Colombia,female,45-54,upper secondary,foreign-born,14.60450649,Latin America
@@ -1619,11 +1619,11 @@ Luxembourg,male,25-34,below upper secondary,foreign-born,NA,Western Europe
 Slovak Republic,male,25-34,upper secondary,native-born,6.620060921,Eastern Europe
 Hungary,female,35-44,tertiary,foreign-born,NA,Eastern Europe
 Norway,female,25-34,tertiary,native-born,NA,Northern Europe
-Austria,female,25-64,upper secondary,native-born,2.594934225,Western Europe
+Austria,female,25-64,upper secondary,native-born,2.594934225,Eastern Europe
 Luxembourg,male,35-44,tertiary,native-born,NA,Western Europe
 Romania,female,35-44,below upper secondary,native-born,14.96220303,Eastern Europe
 New Zealand,male,25-64,below upper secondary,foreign-born,3.937007904,Oceania
-Austria,male,35-44,tertiary,foreign-born,5.122240067,Western Europe
+Austria,male,35-44,tertiary,foreign-born,5.122240067,Eastern Europe
 Switzerland,female,35-44,upper secondary,foreign-born,5.002880096,Western Europe
 United Kingdom,male,25-34,tertiary,foreign-born,3.902356148,Western Europe
 Colombia,male,35-44,tertiary,foreign-born,6.366400719,Latin America
@@ -1643,7 +1643,7 @@ Slovenia,male,55-64,below upper secondary,foreign-born,NA,Eastern Europe
 Bulgaria,male,45-54,upper secondary,foreign-born,NA,Eastern Europe
 Poland,male,25-64,tertiary,native-born,1.132443666,Eastern Europe
 Portugal,male,25-34,upper secondary,native-born,6.729397297,Southern Europe
-Austria,male,25-64,tertiary,native-born,2.059405327,Western Europe
+Austria,male,25-64,tertiary,native-born,2.059405327,Eastern Europe
 Czechia,female,25-64,tertiary,native-born,1.369110465,Eastern Europe
 Portugal,male,35-44,below upper secondary,foreign-born,NA,Southern Europe
 United States,male,55-64,upper secondary,foreign-born,3.549523115,North America
@@ -1658,10 +1658,10 @@ Costa Rica,female,55-64,below upper secondary,foreign-born,NA,Latin America
 Slovenia,male,35-44,upper secondary,foreign-born,NA,Eastern Europe
 Germany,female,25-64,upper secondary,native-born,1.845843315,Western Europe
 Romania,female,45-54,tertiary,native-born,NA,Eastern Europe
-Austria,female,45-54,tertiary,native-born,1.575784922,Western Europe
+Austria,female,45-54,tertiary,native-born,1.575784922,Eastern Europe
 Portugal,male,55-64,tertiary,foreign-born,NA,Southern Europe
 Norway,female,35-44,below upper secondary,foreign-born,NA,Northern Europe
-Austria,male,45-54,below upper secondary,native-born,5.864119053,Western Europe
+Austria,male,45-54,below upper secondary,native-born,5.864119053,Eastern Europe
 Mexico,male,25-64,upper secondary,foreign-born,4.068912029,Latin America
 Portugal,female,45-54,below upper secondary,native-born,6.52928257,Southern Europe
 Spain,female,25-64,below upper secondary,foreign-born,22.11304092,Southern Europe
@@ -1716,7 +1716,7 @@ Switzerland,female,35-44,upper secondary,native-born,1.686207652,Western Europe
 Australia,female,45-54,upper secondary,native-born,1.723649144,Oceania
 Mexico,female,25-64,upper secondary,foreign-born,8.622164726,Latin America
 France,female,25-34,upper secondary,native-born,9.970705032,Western Europe
-Austria,female,25-64,upper secondary,foreign-born,6.676727295,Western Europe
+Austria,female,25-64,upper secondary,foreign-born,6.676727295,Eastern Europe
 Portugal,female,45-54,tertiary,foreign-born,NA,Southern Europe
 Lithuania,male,25-64,tertiary,foreign-born,7.722880363,Eastern Europe
 France,female,55-64,upper secondary,native-born,5.360579014,Western Europe
@@ -1732,7 +1732,7 @@ Norway,male,45-54,below upper secondary,native-born,NA,Northern Europe
 United Kingdom,female,55-64,tertiary,native-born,1.593676209,Western Europe
 Italy,male,55-64,tertiary,native-born,0.662637889,Southern Europe
 Slovenia,female,55-64,upper secondary,foreign-born,NA,Eastern Europe
-Austria,female,55-64,upper secondary,foreign-born,6.303996086,Western Europe
+Austria,female,55-64,upper secondary,foreign-born,6.303996086,Eastern Europe
 Luxembourg,female,55-64,below upper secondary,native-born,NA,Western Europe
 Greece,female,55-64,below upper secondary,native-born,10.9885273,Southern Europe
 Mexico,female,25-34,upper secondary,native-born,3.293966532,Latin America
@@ -1751,7 +1751,7 @@ Mexico,female,25-34,tertiary,native-born,4.070372581,Latin America
 Romania,male,35-44,below upper secondary,native-born,14.73955536,Eastern Europe
 France,male,25-64,below upper secondary,native-born,10.3437624,Western Europe
 France,female,25-34,below upper secondary,foreign-born,24.57466888,Western Europe
-Austria,male,25-64,below upper secondary,native-born,11.7296524,Western Europe
+Austria,male,25-64,below upper secondary,native-born,11.7296524,Eastern Europe
 Poland,male,55-64,below upper secondary,foreign-born,NA,Eastern Europe
 Germany,female,45-54,below upper secondary,native-born,3.419781446,Western Europe
 Netherlands,female,55-64,tertiary,foreign-born,4.821037292,Western Europe
@@ -1765,7 +1765,7 @@ Australia,male,25-34,tertiary,native-born,2.016562462,Oceania
 Canada,female,45-54,tertiary,native-born,2.373580933,North America
 Romania,female,45-54,upper secondary,native-born,3.695655107,Eastern Europe
 New Zealand,female,25-34,upper secondary,foreign-born,4.481792927,Oceania
-Austria,female,45-54,upper secondary,native-born,1.893854141,Western Europe
+Austria,female,45-54,upper secondary,native-born,1.893854141,Eastern Europe
 Netherlands,female,45-54,upper secondary,foreign-born,NA,Western Europe
 Luxembourg,female,35-44,below upper secondary,native-born,NA,Western Europe
 Bulgaria,female,45-54,tertiary,native-born,1.305696726,Eastern Europe
@@ -1775,7 +1775,7 @@ Romania,male,25-64,upper secondary,native-born,3.810237646,Eastern Europe
 Spain,female,25-34,below upper secondary,native-born,29.19900894,Southern Europe
 Norway,female,25-64,below upper secondary,foreign-born,NA,Northern Europe
 Czechia,male,35-44,tertiary,native-born,0.622894466,Eastern Europe
-Austria,male,45-54,tertiary,native-born,1.202657461,Western Europe
+Austria,male,45-54,tertiary,native-born,1.202657461,Eastern Europe
 Mexico,male,55-64,below upper secondary,foreign-born,NA,Latin America
 France,female,25-64,tertiary,foreign-born,9.331943512,Western Europe
 Czechia,female,25-34,upper secondary,foreign-born,7.340116501,Eastern Europe
