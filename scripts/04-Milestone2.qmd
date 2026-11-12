@@ -18,13 +18,14 @@ library(dplyr)
 library(knitr)
 library(kableExtra)
 library(here)
+library(tinytex)
 ```
 
 ## PART I: Clean data
 
 ### Data Source
 
-The data used in this study come from the OECD Data Explorer: [https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov](#0){.uri}
+The data used in this study come from the OECD Data Explorer\[\@oecddata\]: [https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov](#0){.uri}
 
 ```{r}
 raw_data <- read_csv(here("data", "raw_data_1027.csv"))
@@ -257,7 +258,7 @@ Notably, the pattern of missing values is different for the combined 25–64 age
 
 #### Explaining the patterns of missing values
 
-To explain the distribution of missing values, I reviewed the OECD’s methodological notes (OECD, 2023). The OECD applies two criteria when deciding whether to publish a value: a reliability threshold and a confidentiality threshold. Under the reliability threshold, if the denominator of an indicator contains fewer than 30 respondents, the value is either not published or flagged as having reduced reliability. Under the confidentiality threshold, if the numerator contains fewer than three respondents, the value may be withheld for confidentiality reasons.
+To explain the distribution of missing values, I reviewed the OECD’s methodological notes \[\@oecd2023methods\]. The OECD applies two criteria when deciding whether to publish a value: a reliability threshold and a confidentiality threshold. Under the reliability threshold, if the denominator of an indicator contains fewer than 30 respondents, the value is either not published or flagged as having reduced reliability. Under the confidentiality threshold, if the numerator contains fewer than three respondents, the value may be withheld for confidentiality reasons.
 
 Based on these rules, it is possible that countries such as Bulgaria, Hungary, Poland, Romania, the Slovak Republic, Slovenia, Mexico and Costa Rica did not publish unemployment rates for foreign-born women because the number of foreign-born women in their samples was too small to meet the threshold. Similarly, because Luxembourg has a small population, its overall survey sample is likely to be small, so groups of both native-born and foreign-born women may fall below the threshold.
 
@@ -442,3 +443,5 @@ ggplot(gap_table, aes(x = gap_pp, y = reorder(country, gap_pp), fill = region_gr
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
+
+## Reference

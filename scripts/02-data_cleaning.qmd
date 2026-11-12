@@ -11,6 +11,7 @@ date: "2026-10-27"
 ```{r}
 library(tidyverse)
 library(dplyr)
+library(tinytex)
 ```
 
 ## PART I: Clean data
