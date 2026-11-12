@@ -119,7 +119,9 @@ clean_data |>
 
 ### Graph1: Unemployment rates of native-born and foreign-born tertiary-educated women by age
 
-Countries commonly regarded as having large immigrant populations, such as Australia, the United States, Canada and New Zealand, lie close to the dashed line. In the 35–44 and 55–64 age groups, foreign-born women in Australia have lower unemployment rates than native-born women. By contrast, in Southern and Eastern European countries such as Estonia, Portugal, Spain and Greece, foreign-born women have substantially higher unemployment rates than native-born women.
+Graph 1 shows the unemployment rates of native-born and foreign-born tertiary-educated women by age group. To further explore the different patterns among countries, I divided the countries into two regional groups: **North America, Oceania, Western and Northern Europe (shown in blue), and Latin America, Southern and Eastern Europe (shown in red)**. This division is based on geographic region and is intended to compare **major immigration destinations** with other regions.
+
+Countries commonly regarded as having large immigrant populations, such as Australia, the United States, Canada and New Zealand, lie closer to the dashed line. In the 35–44 and 55–64 age groups, foreign-born women in Australia have slightly lower unemployment rates than native-born women. By contrast, in Southern and Eastern European countries such as Estonia, Portugal, Spain and Greece, foreign-born women have substantially higher unemployment rates than native-born women.
 
 Interestingly, the data for Colombia show that among women aged 25–34, foreign-born women have a slightly lower unemployment rate than native-born women. In the 35–44 and 55–64 age groups, the unemployment rates of foreign-born and native-born women are relatively similar. However, in the 45–54 age group, foreign-born women have a much higher unemployment rate than Colombian native-born women.
 
@@ -133,7 +135,8 @@ plot_NF_data <-
   no_missing_base |>
   filter(sex == "female", edu == "tertiary", age != "25-64") |>
   pivot_wider(names_from = birth, values_from = unemp_rate) |>
-  filter(!is.na(`native-born`), !is.na(`foreign-born`)) |>
+  #只留下兩欄都有數值的列。只要其中一邊是 NA，整列就被刪掉。
+  filter(!is.na(`native-born`), !is.na(`foreign-born`)) |> 
   mutate(region_group = if_else(
     region %in% c("North America", "Oceania", "Western Europe", "Northern Europe"),
     "North America, Oceania, Western & Northern Europe",
@@ -148,7 +151,8 @@ ggplot(plot_NF_data, aes(x = `native-born`, y = `foreign-born`, colour = region_
     title = "Graph1: Unemployment rates of native-born and foreign-born\ntertiary-educated women by age",
     x = "Native-born (%)",
     y = "Foreign-born (%)",
-    colour = NULL
+    colour = NULL,
+    caption = "The diagonal line indicates equal unemployment rates for foreign-born and native-born women."
   ) +
   geom_text_repel(aes(label = country), size = 2.5, show.legend = FALSE) +
   scale_colour_manual(values = c(
@@ -162,11 +166,11 @@ ggplot(plot_NF_data, aes(x = `native-born`, y = `foreign-born`, colour = region_
 
 ### Graph2: Unemployment rates of native-born and foreign-born tertiary-educated women aged 25-64
 
-Looking at tertiary-educated women aged 25–64 as a whole, there is no country in which foreign-born women have a lower unemployment rate than native-born women. **Every country lies above the diagonal line.** This suggests that tertiary education may not fully eliminate the disadvantage that immigrant women face in the labour market.
+Looking at tertiary-educated women aged 25–64 as a whole, there is no country in which foreign-born women have a lower unemployment rate than native-born women. **Every country lies above the diagonal line.** These results suggest that foreign-born women may face a weaker position in the labor market than native-born women, and that tertiary education may not fully eliminate this disadvantage.
 
-Among developed countries of immigration, Australia, New Zealand and the United States show the smallest differences between the unemployment rates of foreign-born and native-born women. However, Canada and France, which are also commonly regarded as countries of immigration, lie much further from the diagonal line, indicating a larger gap between foreign-born and native-born women. **In Canada, for example, the unemployment rate of foreign-born women is roughly double that of native-born women. This may suggest that being a country of immigration does not by itself guarantee smaller gaps.**
+Among more developed countries, Australia, New Zealand and the United States (shown in blue) show the smallest differences between the unemployment rates of foreign-born and native-born women. However, Canada, Sweden, and France lie much further from the diagonal line, indicating a larger gap between foreign-born and native-born women. **In Canada, for example, the unemployment rate of foreign-born women is roughly double that of native-born women. This may suggest that even in countries with large immigrant populations, foreign-born women may still face greater challenges in the labor market.** Explaining this pattern would require more country-specific information, such as data on immigration policies or immigrants’ countries of origin.
 
-Southern European, Eastern European and Latin American countries (shown in red) generally have higher unemployment rates, reflecting weaker overall labour market conditions. Spain shows the largest gap, with the unemployment rate of foreign-born women about 7 percentage points higher than that of native-born women. By contrast, Colombia has the highest native-born unemployment rate in the sample, but the gap between the two groups is relatively small, at around 2 percentage points. The only exception among the red countries is Czechia, where both groups of women have low unemployment rates.
+Southern European, Eastern European and Latin American countries generally have higher unemployment rates, reflecting overall weaker labor market conditions. Spain shows the largest gap, with the unemployment rate of foreign-born women about 7 percentage points higher than that of native-born women. By contrast, Colombia has the highest native-born unemployment rate in the sample, but the gap between the two groups is relatively small, at around 2 percentage points. The only exception among the red countries is Czechia, where both groups of women have low unemployment rates.
 
 ```{r}
 base_25_64 <-
@@ -203,13 +207,14 @@ ggplot(plot_NF_all_data, aes(x = `native-born`, y = `foreign-born`, colour = reg
   theme(legend.position = "bottom")
 ```
 
-### Graph3: Gap in unemployment rates between foreign-born and native-born tertiary-educated women aged 25–64"
+### Graph3: Gap in unemployment rates between foreign-born and native-born tertiary-educated women aged 25–64
+
+Graph 3 shows more clearly the gap between the unemployment rates of foreign-born and native-born women in each country, namely, the vertical distance between each point and the diagonal line in Graph 2. As shown in Graph 3, the rankings of the two regional groups are somewhat intermixed, but overall, the blue countries (major immigration destinations) tend to have smaller gaps. One point worth further consideration is that the three countries with the smallest gaps, Australia, the United States and New Zealand, are all non-European countries. Canada, another North American country, also has a gap smaller than that of most European countries. These results suggest that, beyond whether a country is a traditional immigration destination, we may also consider the differences between Europe and other regions, that is, whether conditions in Europe lead to a different pattern.
 
 ```{r}
 gap_table <-
   plot_NF_all_data |>
-  mutate(gap_pp = round(`foreign-born` - `native-born`, 1),
-         ratio  = round(`foreign-born` / `native-born`, 2))
+  mutate(gap_pp = round(`foreign-born` - `native-born`, 1))
 
 ggplot(gap_table, aes(x = gap_pp, y = reorder(country, gap_pp), fill = region_group)) +
   geom_col() +
