@@ -9,11 +9,15 @@ editor: visual
 library(ggrepel)
 library(tidyverse)
 library(dplyr)
+library(knitr)
+library(kableExtra)
 ```
 
 ```{r}
 clean_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
 ```
+
+## PART III: EDA
 
 ```{r}
 glimpse(clean_data)
@@ -31,6 +35,12 @@ table(clean_data$edu)
 table(clean_data$birth)
 table(clean_data$country)
 ```
+
+### Missing Values
+
+The following codes are used to identify where the missing values are in the data. First, I identify which countries have missing values in the data. Next, I examine which countries have missing values for tertiary-educated women. Finally, I create a table showing, for each country, the age groups and birthplace categories in which data for tertiary-educated women are missing.
+
+As shown in the table1, 1) Luxembourg, Norway, and Romania have no data for either native-born or foreign-born women. 2) Bulgaria, Hungary, Mexico, the Slovak Republic, and Slovenia have complete data for native-born women but no data for foreign-born women. 3) Costa Rica and Poland likewise have no data for foreign-born women, and their native-born data are also missing for the 45–54 and 55–64 age groups. 4) The remaining countries in the table have only scattered missing values, mostly for foreign-born women in the older age groups.
 
 ```{r}
 # 哪些國家有缺失值
@@ -52,19 +62,14 @@ clean_data |>
   arrange(desc(n_missing))
 ```
 
-### Missing Values
-
-As shown in the table below, 1) Luxembourg, Norway, and Romania have no data for either native-born or foreign-born women. 2) Bulgaria, Hungary, Mexico, the Slovak Republic, and Slovenia have complete data for native-born women but no data for foreign-born women. 3) Costa Rica and Poland likewise have no data for foreign-born women, and their native-born data are also missing for the 45–54 and 55–64 age groups.
-
-缺少解釋
-
 ```{r}
 #了解高等教育女性的缺失值發生在哪裡
 #把缺失最多的國家放前面
-#盧森堡Luxembourg、挪威Norway、羅馬尼亞Romania三國在本地和外國都沒有資料；保加利亞Bulgaria、匈牙利Hungary、墨西哥Mexico、斯洛伐克Slovak Republic、斯洛維尼亞Slovenia、哥斯大黎加Costa Rica、波蘭Poland有本地資料但沒有外國資料。
+#盧森堡、挪威、羅馬尼亞三國在本地和外國都沒有資料；保加利亞、匈牙利、墨西哥、斯洛伐克Slovak Republic、斯洛維尼亞Slovenia、哥斯大黎加、波蘭有本地資料但沒有外國資料。
 
-clean_data |>
-  filter(sex == "female", edu == "tertiary", is.na(unemp_rate)) |>
+missing_table <-
+  clean_data |>
+  filter(sex == "female", edu == "tertiary", age != "25-64", is.na(unemp_rate)) |>
   arrange(country, birth, age) |>
   group_by(country, birth) |>
   summarise(n_missing = n(),
@@ -73,8 +78,20 @@ clean_data |>
   group_by(country) |>
   mutate(missing_total = sum(n_missing)) |>
   ungroup() |>
-  arrange(desc(missing_total), country, birth) |>
-  print(n = Inf)
+  arrange(desc(missing_total), country, birth)
+
+names(missing_table)
+missing_table_short <-
+  missing_table |>
+  select(country, birth, n_missing, missing_ages)
+
+kable(
+  missing_table_short,
+  caption = "Table 1: Missing values for tertiary-educated women",
+  col.names = c("Country", "Birthplace", "Missing", "Missing age groups")
+) |>
+  kable_styling(font_size = 9, latex_options = "scale_down", full_width = FALSE) |>
+  column_spec(1:4, extra_css = "white-space: nowrap;")
 ```
 
 ### Graph1: Unemployment rates of native-born and foreign-born tertiary-educated women by age
