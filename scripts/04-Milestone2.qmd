@@ -2,6 +2,9 @@
 title: "04-Milestone2"
 format: pdf
 author: "Chih-Hsuan Chang"
+bibliography: ../references.bib
+nocite: |
+  @oecddata, @oecd2023methods
 execute:
   echo: true
   output: true
