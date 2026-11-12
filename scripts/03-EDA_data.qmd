@@ -38,9 +38,25 @@ table(clean_data$country)
 
 ### Missing Values
 
+#### Patterns of missing values
+
 The following codes are used to identify where the missing values are in the data. First, I identify which countries have missing values in the data. Next, I examine which countries have missing values for tertiary-educated women. Finally, I create a table showing, for each country, the age groups and birthplace categories in which data for tertiary-educated women are missing.
 
-As shown in the table1, 1) Luxembourg, Norway, and Romania have no data for either native-born or foreign-born women. 2) Bulgaria, Hungary, Mexico, the Slovak Republic, and Slovenia have complete data for native-born women but no data for foreign-born women. 3) Costa Rica and Poland likewise have no data for foreign-born women, and their native-born data are also missing for the 45–54 and 55–64 age groups. 4) The remaining countries in the table have only scattered missing values, mostly for foreign-born women in the older age groups.
+As shown in the Table1, 1) Luxembourg, Norway, and Romania have no data for either native-born or foreign-born highly-educated women. 2) Bulgaria, Hungary, Mexico, the Slovak Republic, and Slovenia have complete data for native-born women but no data for foreign-born women. 3) Costa Rica and Poland likewise have no data for foreign-born women, and their native-born data are also missing for the 45–54 and 55–64 age groups. 4) The remaining countries in the table have only scattered missing values, mostly for foreign-born women in the older age groups.
+
+Notably, the pattern of missing values is different for the combined 25–64 age group. Countries with only one or a few missing age groups, such as the United Kingdom, Germany and New Zealand, all have data for the 25–64 group. Countries with no age-specific data for foreign-born women, such as Bulgaria and Hungary, also lack data for the combined group. There are, however, two exceptions. Although Norway has no data for any of the four age groups, it does report data for the 25–64 group for both native-born and foreign-born women. Similarly, Romania has no age-specific data for native-born women, but it does report data for native-born women aged 25–64.
+
+#### Explaining the patterns of missing values
+
+To explain the distribution of missing values, I reviewed the OECD’s methodological notes (OECD, 2023). The OECD applies two criteria when deciding whether to publish a value: a reliability threshold and a confidentiality threshold. Under the reliability threshold, if the denominator of an indicator contains fewer than 30 respondents, the value is either not published or flagged as having reduced reliability. Under the confidentiality threshold, if the numerator contains fewer than three respondents, the value may be withheld for confidentiality reasons.
+
+Based on these rules, it is possible that countries such as Bulgaria, Hungary, Poland, Romania, the Slovak Republic, Slovenia, Mexico and Costa Rica did not publish unemployment rates for foreign-born women because the number of foreign-born women in their samples was too small to meet the threshold. Similarly, because Luxembourg has a small population, its overall survey sample is likely to be small, so groups of both native-born and foreign-born women may fall below the threshold.
+
+#### **How to adress missing values**
+
+Because any imputed values would not reflect data actually published by the OECD, and because the situation differs from country to country, this study does not impute missing values. Luxembourg, Norway and Romania have no age-specific data for tertiary-educated women and are therefore excluded from the analyses by age group. In the analyses of the combined 25–64 age group, Norway is included because data are available for both native-born and foreign-born women, while Luxembourg is excluded. For all other countries with missing values, only combinations with values for both native-born and foreign-born women are kept when comparing the two groups. As a result, countries with no data for foreign-born women do not appear in the comparative graphs.
+
+This approach inevitably introduces some limitations. The countries included in the final analysis are more likely to be those with larger foreign-born populations. Therefore, the descriptive results of this study may not generalise well to countries with smaller immigrant populations. In addition, fewer countries can be compared in the older age groups.
 
 ```{r}
 # 哪些國家有缺失值
@@ -92,6 +108,13 @@ kable(
 ) |>
   kable_styling(font_size = 9, latex_options = "scale_down", full_width = FALSE) |>
   column_spec(1:4, extra_css = "white-space: nowrap;")
+```
+
+```{r}
+clean_data |>
+  filter(sex == "female", edu == "tertiary", age == "25-64", is.na(unemp_rate)) |>
+  select(country, birth) |>
+  arrange(country, birth)
 ```
 
 ### Graph1: Unemployment rates of native-born and foreign-born tertiary-educated women by age
@@ -146,8 +169,12 @@ Among developed countries of immigration, Australia, New Zealand and the United 
 Southern European, Eastern European and Latin American countries (shown in red) generally have higher unemployment rates, reflecting weaker overall labour market conditions. Spain shows the largest gap, with the unemployment rate of foreign-born women about 7 percentage points higher than that of native-born women. By contrast, Colombia has the highest native-born unemployment rate in the sample, but the gap between the two groups is relatively small, at around 2 percentage points. The only exception among the red countries is Czechia, where both groups of women have low unemployment rates.
 
 ```{r}
+base_25_64 <-
+  clean_data |>
+  filter(country != "Luxembourg")
+
 plot_NF_all_data <-
-  no_missing_base |>
+  base_25_64 |>
   filter(sex == "female", edu == "tertiary", age == "25-64") |>
   pivot_wider(names_from = birth, values_from = unemp_rate) |>
   filter(!is.na(`native-born`), !is.na(`foreign-born`)) |>
@@ -164,7 +191,8 @@ ggplot(plot_NF_all_data, aes(x = `native-born`, y = `foreign-born`, colour = reg
     title = "Graph2: Unemployment rates of native-born and foreign-born\ntertiary-educated women aged 25-64",
     x = "Native-born (%)",
     y = "Foreign-born (%)",
-    colour = NULL
+    colour = NULL,
+    caption = "The diagonal line indicates equal unemployment rates for foreign-born and native-born women."
   ) +
   geom_text_repel(aes(label = country), size = 2.5, show.legend = FALSE) +
   scale_colour_manual(values = c(
@@ -204,8 +232,29 @@ ggplot(gap_table, aes(x = gap_pp, y = reorder(country, gap_pp), fill = region_gr
 ```{r}
 #不同教育程度的比較
 plot_edu_data <-
+  base_25_64 |>
+  filter(sex == "female", age == "25-64") |>
+  pivot_wider(names_from = birth, values_from = unemp_rate) |>
+  filter(!is.na(`native-born`), !is.na(`foreign-born`)) |>
+  mutate(
+    region_group = if_else(
+      region %in% c("North America", "Oceania", "Western Europe", "Northern Europe"),
+      "North America, Oceania, Western & Northern Europe",
+      "Latin America, Southern & Eastern Europe"
+    ),
+    edu = factor(edu, levels = c("below upper secondary", "upper secondary", "tertiary"))
+  )
+
+# 只保留三種教育程度都有資料的國家，讓三張小圖的國家一致
+common_countries <-
   plot_edu_data |>
-  mutate(edu = factor(edu, levels = c("below upper secondary", "upper secondary", "tertiary")))
+  count(country) |>
+  filter(n == 3) |>
+  pull(country)
+
+plot_edu_data <-
+  plot_edu_data |>
+  filter(country %in% common_countries)
 
 ggplot(plot_edu_data, aes(x = `native-born`, y = `foreign-born`, colour = region_group)) +
   geom_abline(slope = 1, intercept = 0, colour = "grey") +
@@ -223,7 +272,7 @@ ggplot(plot_edu_data, aes(x = `native-born`, y = `foreign-born`, colour = region
     show.legend = FALSE
   ) +
   labs(
-    title = "Graph3: Unemployment rates of native-born and foreign-born women\naged 25–64 by educational attainment",
+    title = "Graph4: Unemployment rates of native-born and foreign-born women\naged 25–64 by educational attainment",
     x = "Native-born (%)",
     y = "Foreign-born (%)",
     colour = NULL
@@ -235,13 +284,5 @@ ggplot(plot_edu_data, aes(x = `native-born`, y = `foreign-born`, colour = region
   theme_minimal() +
   theme(legend.position = "bottom")
 
-
-```
-
-```{r}
-
-```
-
-```{r}
 
 ```
