@@ -1,1 +1,4 @@
 cleanmydata.pdf
+*.pdf
+*.tex
+*_files/
