@@ -6,14 +6,18 @@ author: "Chih-Hsuan Chang"
 date: "2026-10-27"
 ---
 
-## Running Code
+# Unemployment Rate among Highly-Educated Immigrant Women by the Country of Destination
 
 ```{r}
 library(tidyverse)
 library(dplyr)
 ```
 
-Read my raw data from <https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov>
+## PART I: Clean data
+
+### Data Source
+
+The data used in this study come from the OECD Data Explorer: [https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov](#0){.uri}
 
 ```{r}
 raw_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/raw_data_1027.csv")
@@ -21,8 +25,11 @@ raw_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_sto
 
 ```{r}
 names(raw_data)
-
 ```
+
+### Step 1: Cleaning the sex variable
+
+The original SEX variable uses the codes F and M, which are recoded into female and male for readability.
 
 ```{r}
 raw_data |> count(SEX)
@@ -37,6 +44,10 @@ clean_data <-
 
 count(clean_data, sex)
 ```
+
+### Step 2: Cleaning the age variable
+
+The original AGE variable uses codes such as Y25T34, which are recoded into readable age groups: 25–34. The code Y25T64 represents the total for all four age groups and is recoded as 25–64. The age groups are ordered from youngest to oldest.
 
 ```{r}
 raw_data |> count(AGE)
@@ -55,6 +66,10 @@ clean_data <-
 count(clean_data, age)
 ```
 
+### Step 3: Cleaning the educational attainment variable
+
+The original ATTAINMENT_LEV variable uses ISCED 2011 codes, which are recoded into three categories: below upper secondary (ISCED11A_0T2), upper secondary (ISCED11A_3_4) and tertiary (ISCED11A_5T8)
+
 ```{r}
 raw_data |> count(ATTAINMENT_LEV)
 
@@ -70,6 +85,10 @@ clean_data <-
 
 count(clean_data, edu)
 ```
+
+### Step 4: Cleaning the country variable
+
+The original REF_AREA variable uses three-letter country codes, which are converted into full country names (for example, CAN becomes Canada).
 
 ```{r}
 raw_data |> count(REF_AREA)
@@ -95,6 +114,10 @@ clean_data <-
 count(clean_data, country)
 ```
 
+### Step 5: Cleaning the birthplace variable
+
+The original BIRTH_PLACE variable uses the codes NB and FB, which are recoded into native-born and foreign-born.
+
 ```{r}
 raw_data |> count(BIRTH_PLACE)
 
@@ -108,12 +131,18 @@ clean_data <-
 count(clean_data, birth)
 ```
 
+### Step 6: Cleaning the unemployment rate variable (the outcome variable of this study)
+
+The original OBS_VALUE variable is renamed unemp_rate. It is already stored as a numeric value and is measured as a percentage of the labor force in each subgroup, so no further conversion is needed.
+
 ```{r}
 count(raw_data, MEASURE, UNIT_MEASURE)
 clean_data <-
   clean_data |>
   rename(unemp_rate = OBS_VALUE)
 ```
+
+### Step 7: Keeping only the cleaned variables
 
 ```{r}
 # 只保留整理好的變項
@@ -122,6 +151,10 @@ clean_data <-
   filter(MIGRATION_AGE %in% c("_Z", "_T")) |>
   select(country, sex, age, edu, birth, unemp_rate)
 ```
+
+### Step 8: Coding countries by region
+
+Each country is assigned to one of seven regions: North America, Latin America, Oceania, Western Europe, Northern Europe, Southern Europe and Eastern Europe.
 
 ```{r}
 # 地區對照表
@@ -156,6 +189,26 @@ clean_data <-
 
 ```{r}
 head(clean_data)
+```
+
+## PART II: Tests
+
+### Test1: This test checks that the recoded categorical variables (country, sex, age, education and birthplace) contain no missing values.
+
+```{r}
+sum(is.na(clean_data$sex)) == 0
+sum(is.na(clean_data$age)) == 0
+sum(is.na(clean_data$edu)) == 0
+sum(is.na(clean_data$birth)) == 0
+sum(is.na(clean_data$country)) == 0
+```
+
+### Test2: Since each combination of country, sex, age, education and birthplace should appear in only one row, this test checks that no combination is duplicated.
+
+```{r}
+clean_data |>
+  count(country, sex, age, edu, birth) |>
+  filter(n > 1)
 ```
 
 ```{r}
