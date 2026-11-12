@@ -2,6 +2,9 @@
 title: "04-Milestone2"
 format: pdf
 author: "Chih-Hsuan Chang"
+bibliography: ../references.bib
+nocite: |
+  @oecddata, @oecd2023methods
 execute:
   echo: true
   output: true
@@ -201,7 +204,9 @@ head(clean_data)
 
 ## PART II: Tests
 
-### Test1: This test checks that the recoded categorical variables (country, sex, age, education and birthplace) contain no missing values.
+### Test1
+
+This test checks that the recoded categorical variables (country, sex, age, education and birthplace) contain no missing values.
 
 ```{r}
 sum(is.na(clean_data$sex)) == 0
@@ -211,7 +216,9 @@ sum(is.na(clean_data$birth)) == 0
 sum(is.na(clean_data$country)) == 0
 ```
 
-### Test2: Since each combination of country, sex, age, education and birthplace should appear in only one row, this test checks that no combination is duplicated.
+### Test2
+
+Since each combination of country, sex, age, education and birthplace should appear in only one row, this test checks that no combination is duplicated.
 
 ```{r}
 clean_data |>
@@ -408,7 +415,7 @@ ggplot(plot_NF_all_data, aes(x = `native-born`, y = `foreign-born`, colour = reg
     colour = NULL,
     caption = "The diagonal line indicates equal unemployment rates for foreign-born and native-born women."
   ) +
-  geom_text_repel(aes(label = country), size = 2.5, show.legend = FALSE) +
+  geom_text_repel(aes(label = country), size = 2, show.legend = FALSE) +
   scale_colour_manual(values = c(
     "North America, Oceania, Western & Northern Europe" = "blue",
     "Latin America, Southern & Eastern Europe" = "red"
@@ -428,7 +435,7 @@ gap_table <-
 
 ggplot(gap_table, aes(x = gap_pp, y = reorder(country, gap_pp), fill = region_group)) +
   geom_col() +
-  geom_text(aes(label = gap_pp), hjust = -0.2, size = 3) +
+  geom_text(aes(label = gap_pp), hjust = -0.2, size = 2) +
   scale_fill_manual(values = c(
     "North America, Oceania, Western & Northern Europe" = "blue",
     "Latin America, Southern & Eastern Europe" = "red"
