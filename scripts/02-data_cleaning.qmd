@@ -12,6 +12,7 @@ date: "2026-10-27"
 library(tidyverse)
 library(dplyr)
 library(tinytex)
+library(here)
 ```
 
 ## PART I: Clean data
@@ -21,7 +22,7 @@ library(tinytex)
 The data used in this study come from the OECD Data Explorer: [https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov](#0){.uri}
 
 ```{r}
-raw_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/raw_data_1027.csv")
+raw_data <- read_csv(here("data", "raw_data_1027.csv"))
 ```
 
 ```{r}
@@ -213,5 +214,5 @@ clean_data |>
 ```
 
 ```{r}
-write_csv(clean_data, "/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
+write_csv(clean_data, here("data", "cleaned_data.csv"))
 ```

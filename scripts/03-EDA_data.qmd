@@ -12,10 +12,11 @@ library(dplyr)
 library(knitr)
 library(kableExtra)
 library(tinytex)
+library(here)
 ```
 
 ```{r}
-clean_data <- read_csv("/Users/chihhsuan/Desktop/UBC 26W/SOCI 502/SOCI502_data_story/data/clean_data.csv")
+clean_data <- read_csv(here("data", "clean_data.csv"))
 ```
 
 ## PART III: EDA
