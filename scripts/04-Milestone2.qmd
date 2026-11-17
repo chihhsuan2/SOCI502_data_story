@@ -12,7 +12,7 @@ execute:
   message: false
 ---
 
-# Unemployment Rate among Highly-Educated Immigrant Women by the Country of Destination
+# Unemployment Rate among Highly-Educated Immigrant Women
 
 ```{r}
 library(ggrepel)
@@ -28,7 +28,9 @@ library(tinytex)
 
 ### Data Source
 
-The data used in this study come from the OECD Data Explorer\[\@oecddata\]: [https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov](#0){.uri}
+The data used in this study come from the OECD Data Explorer\[\@oecddata\]:
+
+[https://data-explorer.oecd.org/vis?lc=en&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EAG_LSO_EA%40DF_LSO_NEAC_UNEMP_MIGR&df%5Bag%5D=OECD.EDU.IMEP&dq=AUS%2BAUT%2BBEL%2BCAN%2BCHL%2BCOL%2BCRI%2BCZE%2BEST%2BFRA%2BDEU%2BGRC%2BHUN%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BMEX%2BNLD%2BNZL%2BNOR%2BPOL%2BPRT%2BSVK%2BSVN%2BESP%2BSWE%2BCHE%2BGBR%2BUSA%2BBGR%2BROU.M%2BF.Y25T34%2BY35T44%2BY55T64%2BY45T54%2BY25T64.ISCED11A_0T2%2BISCED11A_3_4%2BISCED11A_5T8....NB%2BFB......OBS...A3&lom=LASTNOBSERVATIONS&lo=1&pd=2023,2023&to%5BTIME_PERIOD%5D=true&lb=nm&vw=ov](#0){.uri}
 
 ```{r}
 raw_data <- read_csv(here("data", "raw_data_1027.csv"))
@@ -58,7 +60,7 @@ count(clean_data, sex)
 
 ### Step 2: Cleaning the age variable
 
-The original AGE variable uses codes such as Y25T34, which are recoded into readable age groups: 25–34. The code Y25T64 represents the total for all four age groups and is recoded as 25–64. The age groups are ordered from youngest to oldest.
+The original AGE variable uses codes such as Y25T34, which are recoded into readable age groups: 25–34. The code Y25T64 represents the total for all four age groups and is recoded as 25–64. In addition, the age groups are ordered from youngest to oldest.
 
 ```{r}
 raw_data |> count(AGE)
@@ -142,7 +144,7 @@ clean_data <-
 count(clean_data, birth)
 ```
 
-### Step 6: Cleaning the unemployment rate variable (the outcome variable of this study)
+### Step 6: Cleaning the unemployment rate variable (the outcome variable)
 
 The original OBS_VALUE variable is renamed unemp_rate. It is already stored as a numeric value and is measured as a percentage of the labor force in each subgroup, so no further conversion is needed.
 
@@ -236,14 +238,26 @@ write_csv(clean_data, here("data", "cleaned_data.csv"))
 clean_data <- read_csv(here("data", "clean_data.csv"))
 ```
 
+glimpse() shows the number of rows and columns, each variable’s name and type. A quick overview of the data structure. \[check\] the 1860 rows correspond to every combination of 31 countries, 2 sexes, 5 age groups (including 25–64), 3 levels of educational attainment and 2 birthplace categories (31×2×5×3×2 = 1860).
+
 ```{r}
 glimpse(clean_data)
 ```
+
+head() and tail() show the first and last six rows of the data,
 
 ```{r}
 head(clean_data)      
 tail(clean_data)       
 ```
+
+As unique)() lists all the distinct values in a variable, it allows me to check for misspelled or unexpected values.
+
+```{r}
+unique(clean_data$country)
+```
+
+table() counts the number of rows in each category of a variable.
 
 ```{r}
 table(clean_data$sex)
@@ -251,6 +265,12 @@ table(clean_data$age)
 table(clean_data$edu)
 table(clean_data$birth)
 table(clean_data$country)
+```
+
+The unemployment rates range from 0.3% to 59.3%, with a median of 5.3% and a mean of 7.0%. In addition, 548 of the 1,860 values (about 29%) are missing. In the next section, I will describe the patterns of these missing values and explain how I handle them.
+
+```{r}
+summary(clean_data$unemp_rate)
 ```
 
 ### Missing Values
