@@ -340,7 +340,7 @@ missing_table_short <-
 
 kable(
   missing_table_short,
-  caption = "Table 1: Missing values for tertiary-educated women",
+  caption = "Missing values for tertiary-educated women",
   col.names = c("Country", "Birthplace", "Missing", "Missing age groups")
 ) |>
   kable_styling(font_size = 9, latex_options = "scale_down", full_width = FALSE) |>
