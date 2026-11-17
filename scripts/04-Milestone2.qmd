@@ -470,7 +470,10 @@ ggplot(gap_table, aes(x = gap_pp, y = reorder(country, gap_pp), fill = region_gr
     fill = NULL
   ) +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(
+    legend.position = "bottom",
+    axis.text.y = element_text(size = 7)
+  )
 ```
 
 ## Reference
